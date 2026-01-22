@@ -425,36 +425,105 @@ a.primary-cta:focus {
 }
 
 /* ===== About Section ===== */
-.about-david,
-.about-shield {
+.about-david {
   margin-bottom: var(--spacing-xl);
 }
 
-.about-david:last-child,
-.about-shield:last-child {
-  margin-bottom: 0;
+.about-david-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.about-david-photo {
+  display: flex;
+  justify-content: center;
 }
 
 .about-david-headshot {
-  float: right;
-  width: 180px;
-  height: 180px;
+  width: 220px;
+  height: 220px;
   object-fit: cover;
-  border-radius: var(--radius-md);
-  margin: 0 0 var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-elevated);
-  border: 3px solid var(--color-gold);
+  border: 4px solid var(--color-gold);
 }
 
-.about-david p,
-.about-shield p {
+.about-david-content h2 {
+  margin-bottom: var(--spacing-md);
+}
+
+.about-david-content p {
   margin-bottom: var(--spacing-sm);
   color: var(--color-slate);
 }
 
-.about-david p:last-child,
-.about-shield p:last-child {
+.about-pullquote {
+  background: linear-gradient(135deg, var(--color-blue-light) 0%, var(--color-gray-light) 100%);
+  border-left: 4px solid var(--color-gold);
+  padding: var(--spacing-lg);
+  margin: var(--spacing-lg) 0;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-size: 1.25rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-navy);
+  font-style: italic;
+  line-height: var(--line-height-body);
+  position: relative;
+}
+
+.about-pullquote::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: var(--spacing-md);
+  font-size: 3rem;
+  color: var(--color-gold);
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+
+.about-personal {
+  color: var(--color-slate);
   margin-bottom: 0;
+}
+
+.about-shield {
+  background: var(--color-gray-light);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-gray);
+}
+
+.about-shield-content h2 {
+  margin-bottom: var(--spacing-md);
+  color: var(--color-navy);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.about-shield-content h2::before {
+  content: "🛡️";
+  font-size: 1.5rem;
+}
+
+.about-shield-content p {
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-slate);
+}
+
+.about-shield-content p:last-child {
+  margin-bottom: 0;
+}
+
+.about-license {
+  font-size: var(--font-size-small);
+  color: var(--color-slate);
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--color-gray);
+  margin-top: var(--spacing-md);
 }
 
 /* ===== Testimonials Section ===== */
@@ -668,6 +737,16 @@ a.primary-cta:focus {
   .hero-headshot {
     width: 220px;
     height: 220px;
+  }
+
+  /* About section two-column layout */
+  .about-david-layout {
+    grid-template-columns: 220px 1fr;
+    align-items: start;
+  }
+
+  .about-david-photo {
+    justify-content: flex-start;
   }
 }
 
