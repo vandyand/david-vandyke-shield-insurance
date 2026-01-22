@@ -206,20 +206,45 @@ img {
 
 /* ===== Hero Section ===== */
 .hero {
-  text-align: center;
   padding: var(--spacing-xl) 0;
+  background: linear-gradient(180deg, var(--color-blue-light) 0%, var(--color-white) 100%);
+  margin: 0 calc(-1 * var(--padding-mobile));
+  padding-left: var(--padding-mobile);
+  padding-right: var(--padding-mobile);
 }
 
-.hero-copy {
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
   margin-bottom: var(--spacing-lg);
 }
 
-.hero-copy h1 {
-  margin-bottom: var(--spacing-sm);
-  color: var(--color-navy);
+.hero-photo {
+  flex-shrink: 0;
 }
 
-.hero-copy p {
+.hero-headshot {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: var(--radius-full);
+  border: 4px solid var(--color-gold);
+  box-shadow: var(--shadow-elevated);
+}
+
+.hero-copy {
+  text-align: center;
+}
+
+.hero-copy h1 {
+  margin-bottom: var(--spacing-md);
+  color: var(--color-navy);
+  max-width: 700px;
+}
+
+.hero-intro {
   font-size: var(--font-size-body);
   color: var(--color-slate);
   max-width: 600px;
@@ -230,10 +255,11 @@ img {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--spacing-md);
+  gap: var(--spacing-lg);
+  text-align: center;
 }
 
-.primary-cta {
+.primary-cta-wrapper {
   text-align: center;
 }
 
@@ -241,19 +267,20 @@ a.primary-cta {
   display: inline-block;
   background: var(--color-gold);
   color: var(--color-navy);
-  padding: var(--spacing-sm) var(--spacing-lg);
+  padding: var(--spacing-sm) var(--spacing-xl);
   border-radius: var(--radius-md);
-  font-size: var(--font-size-body);
-  font-weight: var(--font-weight-semibold);
-  min-height: 48px;
+  font-size: 1.25rem;
+  font-weight: var(--font-weight-bold);
+  min-height: 56px;
   line-height: var(--line-height-tight);
+  box-shadow: var(--shadow-card);
   transition: background var(--transition-default), transform var(--transition-default), box-shadow var(--transition-default);
 }
 
 a.primary-cta:hover {
   background: var(--color-gold-dark);
   color: var(--color-navy);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   box-shadow: var(--shadow-elevated);
 }
 
@@ -263,7 +290,7 @@ a.primary-cta:focus {
 }
 
 .cta-subtext {
-  margin-top: 0.75rem;
+  margin-top: var(--spacing-sm);
   color: var(--color-slate);
   font-size: var(--font-size-small);
 }
@@ -274,7 +301,7 @@ a.primary-cta:focus {
 }
 
 .cta-variant-toggle button {
-  background: var(--color-blue-light);
+  background: var(--color-white);
   border: 1px solid var(--color-gray);
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--radius-sm);
@@ -298,13 +325,18 @@ a.primary-cta:focus {
 
 .secondary-cta {
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm) var(--spacing-lg);
   font-size: var(--font-size-body);
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--color-gray);
 }
 
 .secondary-cta a {
   color: var(--color-navy);
+  font-weight: var(--font-weight-medium);
 }
 
 .secondary-cta a:hover {
@@ -557,6 +589,36 @@ a.primary-cta:focus {
 }
 
 /* ===== Responsive ===== */
+@media (min-width: 768px) {
+  .hero-content {
+    flex-direction: row;
+    text-align: left;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-copy {
+    text-align: left;
+    flex: 1;
+  }
+
+  .hero-copy h1 {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .hero-intro {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .hero-headshot {
+    width: 220px;
+    height: 220px;
+  }
+}
+
 @media (max-width: 1024px) {
   .services-list {
     grid-template-columns: repeat(2, 1fr);
@@ -581,6 +643,17 @@ a.primary-cta:focus {
     padding: var(--spacing-section-mobile) 0;
   }
 
+  .hero {
+    margin: 0 calc(-1 * var(--padding-mobile));
+    padding-left: var(--padding-mobile);
+    padding-right: var(--padding-mobile);
+  }
+
+  .hero-headshot {
+    width: 160px;
+    height: 160px;
+  }
+
   .about-david-headshot {
     float: none;
     display: block;
@@ -594,11 +667,22 @@ a.primary-cta:focus {
   .cta-variant-toggle {
     flex-direction: column;
   }
+
+  .secondary-cta {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
 }
 
 @media (max-width: 640px) {
   .site-nav {
     gap: 0.75rem;
     font-size: var(--font-size-small);
+  }
+
+  a.primary-cta {
+    font-size: var(--font-size-body);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    min-height: 48px;
   }
 }
