@@ -47,7 +47,7 @@ git push origin main
 ```
 ├── index.html                      # Single-page site (all content)
 ├── CNAME                           # Custom domain config
-├── davids-insurance-website-info/  # Production assets
+├── images/                         # Production assets
 │   └── david-headshot.png          # David's professional photo
 ├── specs/                          # Project specifications
 └── resources/                      # Reference materials (not deployed)
