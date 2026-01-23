@@ -63,6 +63,18 @@
       mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
       -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
     }
+    /* Secondary services: hidden on mobile by default, always visible on desktop */
+    .secondary-service {
+      display: none;
+    }
+    .secondary-service.expanded {
+      display: block;
+    }
+    @media (min-width: 768px) {
+      .secondary-service {
+        display: block !important;
+      }
+    }
   </style>
 </head>
 <body class="font-sans text-gray-600 leading-relaxed">
@@ -241,8 +253,7 @@
 
     <!-- Services Section -->
     <section id="services" class="py-12 md:py-20 border-b border-gray-200"
-      data-signals="{servicesExpanded: false}"
-      data-init="$servicesExpanded = window.innerWidth > 768">
+      data-signals="{servicesExpanded: false}">
       <div class="max-w-4xl mx-auto px-4 md:px-6">
       <h2 class="text-2xl md:text-3xl font-semibold text-gray-800 mb-4">Insurance Services</h2>
       <p class="text-lg text-gray-600 mb-8 max-w-3xl">
@@ -273,50 +284,50 @@
         </div>
 
         <!-- Secondary Services (expandable on mobile, always visible on desktop) -->
-        <div class="bg-white p-6 rounded-xl border border-gray-200 shadow text-center hover:shadow-lg hover:-translate-y-1 hover:border-gold transition-all hidden md:block"
-          data-show="$servicesExpanded">
+        <div class="secondary-service bg-white p-6 rounded-xl border border-gray-200 shadow text-center hover:shadow-lg hover:-translate-y-1 hover:border-gold transition-all"
+          data-class="{'expanded': $servicesExpanded}">
           <i data-lucide="wrench" class="w-10 h-10 text-navy mx-auto mb-3" aria-hidden="true"></i>
           <h3 class="text-navy font-semibold text-lg mb-2">Contractors Insurance</h3>
           <p class="text-gray-600 text-sm">Specialized coverage for contractors and trades.</p>
         </div>
-        <div class="bg-white p-6 rounded-xl border border-gray-200 shadow text-center hover:shadow-lg hover:-translate-y-1 hover:border-gold transition-all hidden md:block"
-          data-show="$servicesExpanded">
+        <div class="secondary-service bg-white p-6 rounded-xl border border-gray-200 shadow text-center hover:shadow-lg hover:-translate-y-1 hover:border-gold transition-all"
+          data-class="{'expanded': $servicesExpanded}">
           <i data-lucide="shield" class="w-10 h-10 text-navy mx-auto mb-3" aria-hidden="true"></i>
           <h3 class="text-navy font-semibold text-lg mb-2">Disability Insurance</h3>
           <p class="text-gray-600 text-sm">Income protection when you need it most.</p>
         </div>
-        <div class="bg-white p-6 rounded-xl border border-gray-200 shadow text-center hover:shadow-lg hover:-translate-y-1 hover:border-gold transition-all hidden md:block"
-          data-show="$servicesExpanded">
+        <div class="secondary-service bg-white p-6 rounded-xl border border-gray-200 shadow text-center hover:shadow-lg hover:-translate-y-1 hover:border-gold transition-all"
+          data-class="{'expanded': $servicesExpanded}">
           <i data-lucide="waves" class="w-10 h-10 text-navy mx-auto mb-3" aria-hidden="true"></i>
           <h3 class="text-navy font-semibold text-lg mb-2">Flood Insurance</h3>
           <p class="text-gray-600 text-sm">Coverage for flood damage not covered by standard policies.</p>
         </div>
-        <div class="bg-white p-6 rounded-xl border border-gray-200 shadow text-center hover:shadow-lg hover:-translate-y-1 hover:border-gold transition-all hidden md:block"
-          data-show="$servicesExpanded">
+        <div class="secondary-service bg-white p-6 rounded-xl border border-gray-200 shadow text-center hover:shadow-lg hover:-translate-y-1 hover:border-gold transition-all"
+          data-class="{'expanded': $servicesExpanded}">
           <i data-lucide="heart-pulse" class="w-10 h-10 text-navy mx-auto mb-3" aria-hidden="true"></i>
           <h3 class="text-navy font-semibold text-lg mb-2">Health &amp; Dental Insurance</h3>
           <p class="text-gray-600 text-sm">Coverage for your health and dental care needs.</p>
         </div>
-        <div class="bg-white p-6 rounded-xl border border-gray-200 shadow text-center hover:shadow-lg hover:-translate-y-1 hover:border-gold transition-all hidden md:block"
-          data-show="$servicesExpanded">
+        <div class="secondary-service bg-white p-6 rounded-xl border border-gray-200 shadow text-center hover:shadow-lg hover:-translate-y-1 hover:border-gold transition-all"
+          data-class="{'expanded': $servicesExpanded}">
           <i data-lucide="clipboard-list" class="w-10 h-10 text-navy mx-auto mb-3" aria-hidden="true"></i>
           <h3 class="text-navy font-semibold text-lg mb-2">Medicare</h3>
           <p class="text-gray-600 text-sm">Help navigating Medicare options and supplements.</p>
         </div>
-        <div class="bg-white p-6 rounded-xl border border-gray-200 shadow text-center hover:shadow-lg hover:-translate-y-1 hover:border-gold transition-all hidden md:block"
-          data-show="$servicesExpanded">
+        <div class="secondary-service bg-white p-6 rounded-xl border border-gray-200 shadow text-center hover:shadow-lg hover:-translate-y-1 hover:border-gold transition-all"
+          data-class="{'expanded': $servicesExpanded}">
           <i data-lucide="party-popper" class="w-10 h-10 text-navy mx-auto mb-3" aria-hidden="true"></i>
           <h3 class="text-navy font-semibold text-lg mb-2">Special Event Insurance</h3>
           <p class="text-gray-600 text-sm">Coverage for weddings, parties, and special occasions.</p>
         </div>
-        <div class="bg-white p-6 rounded-xl border border-gray-200 shadow text-center hover:shadow-lg hover:-translate-y-1 hover:border-gold transition-all hidden md:block"
-          data-show="$servicesExpanded">
+        <div class="secondary-service bg-white p-6 rounded-xl border border-gray-200 shadow text-center hover:shadow-lg hover:-translate-y-1 hover:border-gold transition-all"
+          data-class="{'expanded': $servicesExpanded}">
           <i data-lucide="file-text" class="w-10 h-10 text-navy mx-auto mb-3" aria-hidden="true"></i>
           <h3 class="text-navy font-semibold text-lg mb-2">Other Insurance</h3>
           <p class="text-gray-600 text-sm">Additional coverage options for unique needs.</p>
         </div>
-        <div class="bg-white p-6 rounded-xl border border-gray-200 shadow text-center hover:shadow-lg hover:-translate-y-1 hover:border-gold transition-all hidden md:block"
-          data-show="$servicesExpanded">
+        <div class="secondary-service bg-white p-6 rounded-xl border border-gray-200 shadow text-center hover:shadow-lg hover:-translate-y-1 hover:border-gold transition-all"
+          data-class="{'expanded': $servicesExpanded}">
           <i data-lucide="dog" class="w-10 h-10 text-navy mx-auto mb-3" aria-hidden="true"></i>
           <h3 class="text-navy font-semibold text-lg mb-2">Pet Insurance</h3>
           <p class="text-gray-600 text-sm">Protection for your furry family members.</p>
@@ -324,13 +335,10 @@
       </div>
 
       <!-- Toggle button (mobile only) -->
-      <button data-show="!$servicesExpanded" data-on:click="$servicesExpanded = !$servicesExpanded"
-        class="block md:hidden mx-auto mt-6 px-6 py-3 bg-gold text-navy font-semibold rounded-lg shadow hover:bg-gold-dark hover:-translate-y-0.5 hover:shadow-lg transition-all">
-        View All Services
-      </button>
-      <button data-show="$servicesExpanded" data-on:click="$servicesExpanded = !$servicesExpanded"
-        class="block md:hidden mx-auto mt-6 px-6 py-3 bg-gold text-navy font-semibold rounded-lg shadow hover:bg-gold-dark hover:-translate-y-0.5 hover:shadow-lg transition-all">
-        Show Less
+      <button class="md:hidden mx-auto mt-6 px-6 py-3 bg-gold text-navy font-semibold rounded-lg shadow hover:bg-gold-dark hover:-translate-y-0.5 hover:shadow-lg transition-all flex items-center gap-2"
+        data-on-click="$servicesExpanded = !$servicesExpanded">
+        <span data-text="$servicesExpanded ? 'Show Less' : 'View All Services'">View All Services</span>
+        <i data-lucide="chevron-down" class="w-5 h-5 transition-transform" data-class="{'rotate-180': $servicesExpanded}" aria-hidden="true"></i>
       </button>
       </div>
     </section>
@@ -369,7 +377,7 @@
       <!-- About Shield -->
       <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
         <h2 class="text-2xl md:text-3xl font-semibold text-navy mb-4 flex items-center gap-3">
-          <span>🛡️</span>
+          <img src="https://www.shieldagency.com/img/shield-insurance-agency.png" alt="Shield Insurance Agency logo" class="h-10 w-auto">
           <span>About Shield Insurance</span>
         </h2>
         <p class="text-gray-600">
