@@ -378,6 +378,7 @@ a.phone-cta:focus {
   outline-offset: 2px;
 }
 
+/* A/B variant toggle - hidden by default via datastar data-show, visible only with ?ab=true query param */
 .cta-variant-toggle {
   display: flex;
   gap: var(--spacing-xs);
