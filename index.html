@@ -336,7 +336,7 @@
 
       <!-- Toggle button (mobile only) -->
       <button class="md:hidden mx-auto mt-6 px-6 py-3 bg-gold text-navy font-semibold rounded-lg shadow hover:bg-gold-dark hover:-translate-y-0.5 hover:shadow-lg transition-all flex items-center gap-2"
-        data-on-click="$servicesExpanded = !$servicesExpanded">
+        data-on:click="$servicesExpanded = !$servicesExpanded">
         <span data-text="$servicesExpanded ? 'Show Less' : 'View All Services'">View All Services</span>
         <i data-lucide="chevron-down" class="w-5 h-5 transition-transform" data-class="{'rotate-180': $servicesExpanded}" aria-hidden="true"></i>
       </button>
@@ -376,10 +376,9 @@
 
       <!-- About Shield -->
       <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
-        <h2 class="text-2xl md:text-3xl font-semibold text-navy mb-4 flex items-center gap-3">
-          <img src="https://www.shieldagency.com/img/shield-insurance-agency.png" alt="Shield Insurance Agency logo" class="h-10 w-auto">
-          <span>About Shield Insurance</span>
-        </h2>
+        <a href="https://www.shieldagency.com" target="_blank" rel="noopener noreferrer" class="block mb-4">
+          <img src="https://www.shieldagency.com/img/shield-insurance-agency.png" alt="Shield Insurance Agency" class="h-12 w-auto">
+        </a>
         <p class="text-gray-600">
           Shield is an independent agency with a long track record of serving West Michigan families. I'm proud to be part of those strong client relationships, and I can compare options across a broad marketplace of carriers to match coverage and budgets with confidence.
         </p>
