@@ -44,6 +44,26 @@
       details summary { list-style: none; }
     }
   </style>
+  <style>
+    /* Carrier carousel animation */
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .carousel-track {
+      display: flex;
+      animation: scroll 30s linear infinite;
+      width: max-content;
+    }
+    .carousel-track:hover {
+      animation-play-state: paused;
+    }
+    .carousel-container {
+      overflow: hidden;
+      mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+  </style>
 </head>
 <body class="font-sans text-gray-600 leading-relaxed">
   <!-- Header -->
@@ -160,7 +180,7 @@
         </p>
 
         <!-- Trust Signals Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="bg-white p-6 rounded-xl border border-gray-200 shadow hover:shadow-lg hover:-translate-y-1 hover:border-gold transition-all">
             <i data-lucide="handshake" class="w-10 h-10 text-gold mb-4" aria-hidden="true"></i>
             <h3 class="text-navy font-semibold text-lg mb-2">Independent & Unbiased</h3>
@@ -180,22 +200,6 @@
             <i data-lucide="award" class="w-10 h-10 text-gold mb-4" aria-hidden="true"></i>
             <h3 class="text-navy font-semibold text-lg mb-2">10+ Years Experience</h3>
             <p class="text-gray-600">A decade in real estate taught me the importance of protecting what matters most to families and businesses.</p>
-          </div>
-        </div>
-
-        <!-- Licensed States -->
-        <div class="bg-white p-6 rounded-xl border-2 border-gold text-center">
-          <p class="font-semibold text-navy text-lg mb-4">Licensed to serve you in:</p>
-          <div class="flex flex-wrap gap-3 justify-center">
-            <span class="px-4 py-2 bg-blue-50 text-navy rounded-full font-medium text-sm border border-navy-light">Arizona</span>
-            <span class="px-4 py-2 bg-blue-50 text-navy rounded-full font-medium text-sm border border-navy-light">Florida</span>
-            <span class="px-4 py-2 bg-blue-50 text-navy rounded-full font-medium text-sm border border-navy-light">Illinois</span>
-            <span class="px-4 py-2 bg-blue-50 text-navy rounded-full font-medium text-sm border border-navy-light">Indiana</span>
-            <span class="px-4 py-2 bg-blue-50 text-navy rounded-full font-medium text-sm border border-navy-light">Michigan</span>
-            <span class="px-4 py-2 bg-blue-50 text-navy rounded-full font-medium text-sm border border-navy-light">Missouri</span>
-            <span class="px-4 py-2 bg-blue-50 text-navy rounded-full font-medium text-sm border border-navy-light">North Carolina</span>
-            <span class="px-4 py-2 bg-blue-50 text-navy rounded-full font-medium text-sm border border-navy-light">Ohio</span>
-            <span class="px-4 py-2 bg-blue-50 text-navy rounded-full font-medium text-sm border border-navy-light">Utah</span>
           </div>
         </div>
       </div>
@@ -368,11 +372,8 @@
           <span>🛡️</span>
           <span>About Shield Insurance</span>
         </h2>
-        <p class="text-gray-600 mb-3">
+        <p class="text-gray-600">
           Shield is an independent agency with a long track record of serving West Michigan families. I'm proud to be part of those strong client relationships, and I can compare options across a broad marketplace of carriers to match coverage and budgets with confidence.
-        </p>
-        <p class="text-sm text-gray-500 pt-3 border-t border-gray-200 mt-4">
-          Licensed in AZ, FL, IL, IN, MI, MO, NC, OH, UT.
         </p>
       </div>
       </div>
@@ -469,35 +470,82 @@
 
     <!-- Carriers Section -->
     <section id="carriers" class="py-12 md:py-20 border-b border-gray-200 bg-gray-50 text-center">
-      <div class="max-w-4xl mx-auto px-4 md:px-6">
+      <div class="max-w-4xl mx-auto px-4 md:px-6 mb-8">
         <h2 class="text-2xl md:text-3xl font-semibold text-gray-800 mb-4">Trusted Insurance Partners</h2>
-        <p class="text-lg text-gray-600 max-w-xl mx-auto mb-8">
+        <p class="text-lg text-gray-600 max-w-xl mx-auto">
           As an independent agency, we partner with top-rated carriers to find you the best coverage and value.
         </p>
+      </div>
 
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 max-w-4xl mx-auto mb-6">
-          <div class="bg-white p-4 md:p-6 rounded-lg border border-gray-200 flex items-center justify-center min-h-[70px] md:min-h-[80px] hover:border-gold hover:shadow transition-all">
-            <span class="font-semibold text-navy text-sm md:text-base">Travelers</span>
+      <!-- Carousel -->
+      <div class="carousel-container mb-8">
+        <div class="carousel-track">
+          <!-- First set of logos -->
+          <div class="flex-shrink-0 bg-white px-8 py-4 mx-3 rounded-lg border border-gray-200 flex items-center justify-center min-w-[140px] min-h-[70px]">
+            <span class="font-semibold text-navy">Travelers</span>
           </div>
-          <div class="bg-white p-4 md:p-6 rounded-lg border border-gray-200 flex items-center justify-center min-h-[70px] md:min-h-[80px] hover:border-gold hover:shadow transition-all">
-            <span class="font-semibold text-navy text-sm md:text-base">Safeco</span>
+          <div class="flex-shrink-0 bg-white px-8 py-4 mx-3 rounded-lg border border-gray-200 flex items-center justify-center min-w-[140px] min-h-[70px]">
+            <span class="font-semibold text-navy">Safeco</span>
           </div>
-          <div class="bg-white p-4 md:p-6 rounded-lg border border-gray-200 flex items-center justify-center min-h-[70px] md:min-h-[80px] hover:border-gold hover:shadow transition-all">
-            <span class="font-semibold text-navy text-sm md:text-base">Progressive</span>
+          <div class="flex-shrink-0 bg-white px-8 py-4 mx-3 rounded-lg border border-gray-200 flex items-center justify-center min-w-[140px] min-h-[70px]">
+            <span class="font-semibold text-navy">Progressive</span>
           </div>
-          <div class="bg-white p-4 md:p-6 rounded-lg border border-gray-200 flex items-center justify-center min-h-[70px] md:min-h-[80px] hover:border-gold hover:shadow transition-all">
-            <span class="font-semibold text-navy text-sm md:text-base">The Hartford</span>
+          <div class="flex-shrink-0 bg-white px-8 py-4 mx-3 rounded-lg border border-gray-200 flex items-center justify-center min-w-[140px] min-h-[70px]">
+            <span class="font-semibold text-navy">The Hartford</span>
           </div>
-          <div class="bg-white p-4 md:p-6 rounded-lg border border-gray-200 flex items-center justify-center min-h-[70px] md:min-h-[80px] hover:border-gold hover:shadow transition-all">
-            <span class="font-semibold text-navy text-sm md:text-base">Liberty Mutual</span>
+          <div class="flex-shrink-0 bg-white px-8 py-4 mx-3 rounded-lg border border-gray-200 flex items-center justify-center min-w-[140px] min-h-[70px]">
+            <span class="font-semibold text-navy">Liberty Mutual</span>
           </div>
-          <div class="bg-white p-4 md:p-6 rounded-lg border border-gray-200 flex items-center justify-center min-h-[70px] md:min-h-[80px] hover:border-gold hover:shadow transition-all">
-            <span class="font-semibold text-navy text-sm md:text-base">Nationwide</span>
+          <div class="flex-shrink-0 bg-white px-8 py-4 mx-3 rounded-lg border border-gray-200 flex items-center justify-center min-w-[140px] min-h-[70px]">
+            <span class="font-semibold text-navy">Nationwide</span>
+          </div>
+          <div class="flex-shrink-0 bg-white px-8 py-4 mx-3 rounded-lg border border-gray-200 flex items-center justify-center min-w-[140px] min-h-[70px]">
+            <span class="font-semibold text-navy">AAA</span>
+          </div>
+          <div class="flex-shrink-0 bg-white px-8 py-4 mx-3 rounded-lg border border-gray-200 flex items-center justify-center min-w-[140px] min-h-[70px]">
+            <span class="font-semibold text-navy">State Auto</span>
+          </div>
+          <div class="flex-shrink-0 bg-white px-8 py-4 mx-3 rounded-lg border border-gray-200 flex items-center justify-center min-w-[140px] min-h-[70px]">
+            <span class="font-semibold text-navy">Foremost</span>
+          </div>
+          <div class="flex-shrink-0 bg-white px-8 py-4 mx-3 rounded-lg border border-gray-200 flex items-center justify-center min-w-[140px] min-h-[70px]">
+            <span class="font-semibold text-navy">Hagerty</span>
+          </div>
+          <!-- Duplicate set for seamless loop -->
+          <div class="flex-shrink-0 bg-white px-8 py-4 mx-3 rounded-lg border border-gray-200 flex items-center justify-center min-w-[140px] min-h-[70px]">
+            <span class="font-semibold text-navy">Travelers</span>
+          </div>
+          <div class="flex-shrink-0 bg-white px-8 py-4 mx-3 rounded-lg border border-gray-200 flex items-center justify-center min-w-[140px] min-h-[70px]">
+            <span class="font-semibold text-navy">Safeco</span>
+          </div>
+          <div class="flex-shrink-0 bg-white px-8 py-4 mx-3 rounded-lg border border-gray-200 flex items-center justify-center min-w-[140px] min-h-[70px]">
+            <span class="font-semibold text-navy">Progressive</span>
+          </div>
+          <div class="flex-shrink-0 bg-white px-8 py-4 mx-3 rounded-lg border border-gray-200 flex items-center justify-center min-w-[140px] min-h-[70px]">
+            <span class="font-semibold text-navy">The Hartford</span>
+          </div>
+          <div class="flex-shrink-0 bg-white px-8 py-4 mx-3 rounded-lg border border-gray-200 flex items-center justify-center min-w-[140px] min-h-[70px]">
+            <span class="font-semibold text-navy">Liberty Mutual</span>
+          </div>
+          <div class="flex-shrink-0 bg-white px-8 py-4 mx-3 rounded-lg border border-gray-200 flex items-center justify-center min-w-[140px] min-h-[70px]">
+            <span class="font-semibold text-navy">Nationwide</span>
+          </div>
+          <div class="flex-shrink-0 bg-white px-8 py-4 mx-3 rounded-lg border border-gray-200 flex items-center justify-center min-w-[140px] min-h-[70px]">
+            <span class="font-semibold text-navy">AAA</span>
+          </div>
+          <div class="flex-shrink-0 bg-white px-8 py-4 mx-3 rounded-lg border border-gray-200 flex items-center justify-center min-w-[140px] min-h-[70px]">
+            <span class="font-semibold text-navy">State Auto</span>
+          </div>
+          <div class="flex-shrink-0 bg-white px-8 py-4 mx-3 rounded-lg border border-gray-200 flex items-center justify-center min-w-[140px] min-h-[70px]">
+            <span class="font-semibold text-navy">Foremost</span>
+          </div>
+          <div class="flex-shrink-0 bg-white px-8 py-4 mx-3 rounded-lg border border-gray-200 flex items-center justify-center min-w-[140px] min-h-[70px]">
+            <span class="font-semibold text-navy">Hagerty</span>
           </div>
         </div>
-
-        <p class="text-sm text-gray-500 italic">Plus 50+ additional carriers to compare for your best rate.</p>
       </div>
+
+      <p class="text-sm text-gray-500 italic">Plus 50+ additional carriers to compare for your best rate.</p>
     </section>
 
     <!-- FAQ Section -->
