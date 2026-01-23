@@ -1024,6 +1024,15 @@ a.primary-cta:focus {
   margin-top: var(--spacing-sm);
 }
 
+.footer-agency a {
+  color: var(--color-gold-light);
+  transition: color var(--transition-fast);
+}
+
+.footer-agency a:hover {
+  color: var(--color-white);
+}
+
 .footer-nav {
   display: flex;
   flex-direction: column;
