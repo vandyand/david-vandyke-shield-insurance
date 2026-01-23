@@ -404,6 +404,44 @@ a.primary-cta:focus {
   border-color: var(--color-gold);
 }
 
+/* Services toggle button */
+.services-toggle {
+  display: block;
+  margin: var(--spacing-lg) auto 0;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: var(--color-gold);
+  color: var(--color-navy);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: background var(--transition-default), transform var(--transition-fast);
+  box-shadow: var(--shadow-card);
+}
+
+.services-toggle:hover {
+  background: var(--color-gold-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-elevated);
+}
+
+.services-toggle:focus {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* Desktop: show all services and hide toggle */
+@media (min-width: 769px) {
+  .service-secondary {
+    display: block !important;
+  }
+  
+  .services-toggle {
+    display: none !important;
+  }
+}
+
 .service-icon {
   display: block;
   font-size: 2.5rem;
