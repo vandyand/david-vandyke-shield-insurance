@@ -444,9 +444,11 @@ a.primary-cta:focus {
 
 .service-icon {
   display: block;
-  font-size: 2.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
   margin-bottom: var(--spacing-sm);
-  line-height: 1;
+  color: var(--color-navy);
+  stroke-width: 1.5;
 }
 
 .service-card h3 {
@@ -970,8 +972,6 @@ a.primary-cta:focus {
 }
 
 .contact-icon {
-  font-size: 1.75rem;
-  line-height: 1;
   flex-shrink: 0;
   width: 44px;
   height: 44px;
@@ -980,6 +980,9 @@ a.primary-cta:focus {
   justify-content: center;
   background: var(--color-blue-light);
   border-radius: var(--radius-md);
+  padding: 10px;
+  color: var(--color-navy);
+  stroke-width: 2;
 }
 
 .contact-details {
