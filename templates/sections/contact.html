@@ -1,0 +1,32 @@
+    <!-- Contact Section -->
+    <section id="contact" class="py-12 md:py-20">
+      <div class="max-w-4xl mx-auto px-4 md:px-6">
+      <div class="text-center mb-8">
+        <h2 class="text-2xl md:text-3xl font-semibold text-gray-800 mb-2">{{contact_headline}}</h2>
+        <p class="text-gray-600 max-w-xl mx-auto">{{contact_subheadline}}</p>
+      </div>
+
+      <div class="max-w-xl mx-auto text-center">
+        <!-- Calendly Popup Button -->
+        <a href="{{contact_cta_url}}" target="_blank" rel="noopener noreferrer"
+          class="inline-flex items-center justify-center gap-3 bg-gold hover:bg-gold-dark text-navy font-bold text-xl px-10 py-5 rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all min-h-[64px]">
+          <i data-lucide="calendar" class="w-6 h-6" aria-hidden="true"></i>
+          {{contact_cta_text}}
+        </a>
+        <p class="text-gray-500 text-sm mt-4">Quick, no-pressure conversation about your coverage options.</p>
+
+        <!-- Direct Contact -->
+        <div class="mt-10 flex flex-col md:flex-row gap-4 justify-center">
+          <a href="tel:6166164884" class="inline-flex items-center justify-center gap-3 bg-navy hover:bg-navy-light text-white font-bold text-lg px-8 py-4 rounded-lg shadow hover:shadow-lg hover:-translate-y-1 transition-all">
+            <i data-lucide="phone" class="w-5 h-5" aria-hidden="true"></i>
+            616-616-4884
+          </a>
+          <a href="mailto:davidvd@shieldagency.com" class="inline-flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-navy font-bold text-lg px-8 py-4 rounded-lg border-2 border-gray-200 hover:border-gold shadow hover:shadow-lg hover:-translate-y-1 transition-all">
+            <i data-lucide="mail" class="w-5 h-5" aria-hidden="true"></i>
+            davidvd@shieldagency.com
+          </a>
+        </div>
+        <p class="text-gray-500 text-sm mt-3">I typically respond within one business day.</p>
+      </div>
+      </div>
+    </section>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{page_title}}</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z' fill='%23ffffff' stroke='%232c5282' stroke-width='2'/%3E%3Cline x1='12' y1='2' x2='12' y2='22' stroke='%232c5282' stroke-width='2'/%3E%3Cline x1='4' y1='10' x2='20' y2='10' stroke='%232c5282' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: {
+              DEFAULT: '#1a365d',
+              light: '#2c5282',
+              dark: '#1a202c'
+            },
+            gold: {
+              DEFAULT: '#d69e2e',
+              light: '#ecc94b',
+              dark: '#b7791f'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .scroll-smooth { scroll-behavior: smooth; }
+    }
+    @layer base {
+      html { scroll-behavior: smooth; }
+      details summary::-webkit-details-marker { display: none; }
+      details summary { list-style: none; }
+    }
+  </style>
+  <style>
+    /* Carrier carousel animation */
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .carousel-track {
+      display: flex;
+      animation: scroll 30s linear infinite;
+      width: max-content;
+    }
+    .carousel-track:hover {
+      animation-play-state: paused;
+    }
+    .carousel-container {
+      overflow: hidden;
+      mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+    /* Secondary services: hidden on mobile by default, always visible on desktop */
+    .secondary-service {
+      display: none;
+    }
+    .secondary-service.expanded {
+      display: block;
+    }
+    @media (min-width: 768px) {
+      .secondary-service {
+        display: block !important;
+      }
+    }
+  </style>
+</head>
+<body class="font-sans text-gray-600 leading-relaxed" data-variant="{{variant_id}}" data-niche="{{niche_slug}}">
+  {{section:header}}
+
+  <!-- Main Content -->
+  <main>
+    {{section:hero}}
+    {{section:why-choose}}
+    {{section:services}}
+    {{section:about}}
+    {{section:testimonials}}
+    {{section:carriers}}
+    {{section:faq}}
+    {{section:contact}}
+  </main>
+
+  {{section:footer}}
+
+  <script>lucide.createIcons();</script>
+  <script>
+// Scroll shadow on header
+const header = document.querySelector('header');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('shadow-lg', window.scrollY > 10);
+});
+
+// Mobile menu toggle
+const menuBtn = document.getElementById('menu-toggle');
+const mobileNav = document.getElementById('mobile-nav');
+const menuIconOpen = document.getElementById('menu-icon-open');
+const menuIconClose = document.getElementById('menu-icon-close');
+menuBtn.addEventListener('click', () => {
+  const isHidden = mobileNav.classList.toggle('hidden');
+  menuIconOpen.classList.toggle('hidden', !isHidden);
+  menuIconClose.classList.toggle('hidden', isHidden);
+});
+mobileNav.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    mobileNav.classList.add('hidden');
+    menuIconOpen.classList.remove('hidden');
+    menuIconClose.classList.add('hidden');
+  });
+});
+
+// Services expand/collapse (mobile)
+const servicesBtn = document.getElementById('services-toggle');
+if (servicesBtn) {
+  const secondaryServices = document.querySelectorAll('.secondary-service');
+  const toggleText = servicesBtn.querySelector('span');
+  const toggleIcon = servicesBtn.querySelector('[data-lucide="chevron-down"]');
+  let expanded = false;
+  servicesBtn.addEventListener('click', () => {
+    expanded = !expanded;
+    secondaryServices.forEach(el => el.classList.toggle('expanded', expanded));
+    if (toggleText) toggleText.textContent = expanded ? 'Show Less' : 'View All Services';
+    if (toggleIcon) toggleIcon.classList.toggle('rotate-180', expanded);
+  });
+}
+  </script>
+  <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "1eb649f75ee44207bde8d74bd95b2396"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

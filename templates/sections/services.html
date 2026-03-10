@@ -1,0 +1,19 @@
+    <!-- Services Section -->
+    <section id="services" class="py-12 md:py-20 border-b border-gray-200">
+      <div class="max-w-4xl mx-auto px-4 md:px-6">
+      <h2 class="text-2xl md:text-3xl font-semibold text-gray-800 mb-4">{{services_headline}}</h2>
+      <p class="text-lg text-gray-600 mb-8 max-w-3xl">
+        {{services_intro}}
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {{services_items_html}}
+      </div>
+
+      <!-- Toggle button (mobile only) -->
+      <button id="services-toggle" class="md:hidden mx-auto mt-6 px-6 py-3 bg-gold text-navy font-semibold rounded-lg shadow hover:bg-gold-dark hover:-translate-y-0.5 hover:shadow-lg transition-all flex items-center gap-2">
+        <span>View All Services</span>
+        <i data-lucide="chevron-down" class="w-5 h-5 transition-transform" aria-hidden="true"></i>
+      </button>
+      </div>
+    </section>
