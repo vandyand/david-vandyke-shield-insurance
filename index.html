@@ -151,11 +151,11 @@
           <div class="flex flex-col md:flex-row items-center gap-4">
             <a data-show="$ctaVariant === 'A'" href="#contact"
               class="inline-flex items-center justify-center bg-gold hover:bg-gold-dark text-navy font-bold text-lg md:text-xl px-8 py-4 rounded-lg min-h-[60px] min-w-[220px] shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">
-              Get a Free Quote
+              Book a Free Consultation
             </a>
             <a data-show="$ctaVariant === 'B'" href="#contact"
               class="inline-flex items-center justify-center bg-gold hover:bg-gold-dark text-navy font-bold text-lg md:text-xl px-8 py-4 rounded-lg min-h-[60px] min-w-[220px] shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">
-              Let's Talk
+              Schedule a Call
             </a>
             <a href="tel:6166164884"
               class="inline-flex items-center justify-center gap-3 bg-navy hover:bg-navy-light text-white font-bold text-lg md:text-xl px-8 py-4 rounded-lg min-h-[60px] min-w-[220px] shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">
@@ -614,84 +614,20 @@
     <section id="contact" class="py-12 md:py-20">
       <div class="max-w-4xl mx-auto px-4 md:px-6">
       <div class="text-center mb-8">
-        <h2 class="text-2xl md:text-3xl font-semibold text-gray-800 mb-2">Get in touch</h2>
-        <p class="text-gray-600 max-w-xl mx-auto">Share a few details and I will follow up by email with next steps.</p>
+        <h2 class="text-2xl md:text-3xl font-semibold text-gray-800 mb-2">Book a free consultation</h2>
+        <p class="text-gray-600 max-w-xl mx-auto">Pick a time that works for you and I'll walk you through your options.</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-[1fr_360px] gap-8 items-start">
-        <!-- Contact Form -->
-        <div>
-          <form id="contact-form" class="bg-white p-6 rounded-xl border border-gray-200 shadow flex flex-col gap-4">
-            <input type="hidden" name="_subject" value="New contact from davidvandykeinsurance.com">
+      <div class="max-w-3xl mx-auto">
+        <!-- Calendly Inline Widget -->
+        <div class="calendly-inline-widget" data-url="https://calendly.com/davidvd-shieldagency/15-minute-meeting" style="min-width:320px;height:700px;"></div>
+        <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
 
-            <div class="flex flex-col gap-2">
-              <label for="full-name" class="font-semibold text-navy text-sm uppercase tracking-wide">Full name</label>
-              <input id="full-name" name="full-name" type="text" required placeholder="Your full name"
-                class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gold focus:ring-4 focus:ring-gold/20 transition-all min-h-[52px]">
-            </div>
-
-            <div class="flex flex-col gap-2">
-              <label for="email" class="font-semibold text-navy text-sm uppercase tracking-wide">Email</label>
-              <input id="email" name="email" type="email" required placeholder="you@example.com"
-                class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gold focus:ring-4 focus:ring-gold/20 transition-all min-h-[52px]">
-            </div>
-
-            <div class="flex flex-col gap-2">
-              <label for="phone" class="font-semibold text-navy text-sm uppercase tracking-wide">Phone</label>
-              <input id="phone" name="phone" type="tel" required placeholder="(555) 123-4567"
-                class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gold focus:ring-4 focus:ring-gold/20 transition-all min-h-[52px]">
-            </div>
-
-            <div class="flex flex-col gap-2">
-              <label for="message" class="font-semibold text-navy text-sm uppercase tracking-wide">Message</label>
-              <textarea id="message" name="message" required placeholder="How can I help you?"
-                class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gold focus:ring-4 focus:ring-gold/20 transition-all min-h-[140px] resize-y"></textarea>
-            </div>
-
-            <div class="flex flex-col gap-2">
-              <label for="state" class="font-semibold text-navy text-sm uppercase tracking-wide">State (optional)</label>
-              <select id="state" name="state"
-                class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-gray-800 bg-white focus:outline-none focus:border-gold focus:ring-4 focus:ring-gold/20 transition-all min-h-[52px] cursor-pointer appearance-none bg-no-repeat bg-[right_1rem_center] bg-[length:12px_12px]"
-                style="background-image: url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 12 12%27%3E%3Cpath fill=%27%234a5568%27 d=%27M6 8L1 3h10z%27/%3E%3C/svg%3E');">
-                <option value="">Select a state</option>
-                <option>MI</option>
-                <option>AZ</option>
-                <option>FL</option>
-                <option>IL</option>
-                <option>IN</option>
-                <option>MO</option>
-                <option>NC</option>
-                <option>OH</option>
-                <option>UT</option>
-              </select>
-              <p class="text-sm text-gray-500">David is licensed in MI. Shield Insurance Agency serves AZ, FL, IL, IN, MI, MO, NC, OH, UT.</p>
-            </div>
-
-            <button id="submit-btn" type="submit"
-              class="bg-gold text-navy font-bold text-lg px-8 py-4 rounded-lg shadow hover:bg-gold-dark hover:-translate-y-1 hover:shadow-lg transition-all min-h-[56px] mt-2">
-              Send Message
-            </button>
-          </form>
-
-          <!-- Confirmation/Error Messages -->
-          <div id="form-success" role="status" aria-live="polite" class="mt-4 hidden">
-            <p class="bg-gradient-to-r from-green-100 to-green-200 text-green-800 px-6 py-4 rounded-lg border border-green-300 font-medium text-center shadow">
-              Thanks for reaching out. I'll review your message and email you shortly with next steps.
-            </p>
-          </div>
-          <div id="form-error" role="alert" aria-live="polite" class="mt-4 hidden">
-            <p class="bg-gradient-to-r from-red-100 to-red-200 text-red-800 px-6 py-4 rounded-lg border border-red-300 font-medium text-center shadow">
-              Something went wrong. Please try again or email <a href="mailto:davidvd@shieldagency.com" class="underline">davidvd@shieldagency.com</a> directly.
-            </p>
-          </div>
-        </div>
-
-        <!-- Direct Contact Sidebar -->
-        <div class="md:sticky md:top-24">
-          <div class="bg-gradient-to-br from-blue-50 to-gray-50 p-6 rounded-xl border border-gray-200">
-            <h3 class="text-navy font-semibold text-lg text-center mb-4">Prefer to reach out directly?</h3>
-
-            <div class="flex items-center gap-4 bg-white p-4 rounded-lg border border-gray-200 mb-3 hover:border-gold hover:shadow transition-all">
+        <!-- Direct Contact -->
+        <div class="mt-8 bg-gradient-to-br from-blue-50 to-gray-50 p-6 rounded-xl border border-gray-200">
+          <h3 class="text-navy font-semibold text-lg text-center mb-4">Prefer to reach out directly?</h3>
+          <div class="flex flex-col md:flex-row gap-4 justify-center">
+            <div class="flex items-center gap-4 bg-white p-4 rounded-lg border border-gray-200 hover:border-gold hover:shadow transition-all">
               <div class="flex-shrink-0 w-11 h-11 bg-blue-50 rounded-lg flex items-center justify-center">
                 <i data-lucide="phone" class="w-5 h-5 text-navy" aria-hidden="true"></i>
               </div>
@@ -700,8 +636,7 @@
                 <a href="tel:6166164884" class="text-navy font-semibold hover:text-gold-dark transition-colors">616-616-4884</a>
               </div>
             </div>
-
-            <div class="flex items-center gap-4 bg-white p-4 rounded-lg border border-gray-200 mb-4 hover:border-gold hover:shadow transition-all">
+            <div class="flex items-center gap-4 bg-white p-4 rounded-lg border border-gray-200 hover:border-gold hover:shadow transition-all">
               <div class="flex-shrink-0 w-11 h-11 bg-blue-50 rounded-lg flex items-center justify-center">
                 <i data-lucide="mail" class="w-5 h-5 text-navy" aria-hidden="true"></i>
               </div>
@@ -710,11 +645,10 @@
                 <a href="mailto:davidvd@shieldagency.com" class="text-navy font-semibold hover:text-gold-dark transition-colors">davidvd@shieldagency.com</a>
               </div>
             </div>
-
-            <p class="text-center text-sm text-gray-500 pt-3 border-t border-gray-200">
-              I typically respond within one business day.
-            </p>
           </div>
+          <p class="text-center text-sm text-gray-500 pt-3 mt-4 border-t border-gray-200">
+            I typically respond within one business day.
+          </p>
         </div>
       </div>
       </div>
@@ -782,46 +716,6 @@
   </footer>
 
   <script>lucide.createIcons();</script>
-  <script>
-    document.getElementById('contact-form').addEventListener('submit', async function(e) {
-      e.preventDefault();
-
-      const form = e.target;
-      const submitBtn = document.getElementById('submit-btn');
-      const successMsg = document.getElementById('form-success');
-      const errorMsg = document.getElementById('form-error');
-
-      // Hide any previous messages
-      successMsg.classList.add('hidden');
-      errorMsg.classList.add('hidden');
-
-      // Disable button and show loading state
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Sending...';
-
-      try {
-        const response = await fetch('https://formspree.io/f/xbddbqzl', {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { 'Accept': 'application/json' }
-        });
-
-        if (response.ok) {
-          // Success: show message, clear form
-          form.reset();
-          successMsg.classList.remove('hidden');
-        } else {
-          throw new Error('Form submission failed');
-        }
-      } catch (error) {
-        errorMsg.classList.remove('hidden');
-      } finally {
-        // Re-enable button
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Send Message';
-      }
-    });
-  </script>
   <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "1eb649f75ee44207bde8d74bd95b2396"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
