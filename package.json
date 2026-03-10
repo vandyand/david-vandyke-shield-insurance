@@ -1,0 +1,7 @@
+{
+  "name": "david-vandyke-insurance",
+  "private": true,
+  "scripts": {
+    "build": "node build.js"
+  }
+}
