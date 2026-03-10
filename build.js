@@ -184,4 +184,14 @@ for (const file of fs.readdirSync(imgSrc)) {
 // Copy CNAME
 fs.copyFileSync(path.join(ROOT, 'CNAME'), path.join(PUBLIC, 'CNAME'));
 
+// Copy admin dashboard
+const adminSrc = path.join(ROOT, 'admin');
+const adminDest = path.join(PUBLIC, '_admin');
+if (fs.existsSync(adminSrc)) {
+  fs.mkdirSync(adminDest, { recursive: true });
+  for (const file of fs.readdirSync(adminSrc)) {
+    fs.copyFileSync(path.join(adminSrc, file), path.join(adminDest, file));
+  }
+}
+
 console.log(`\nBuild complete: ${pageCount} pages generated.`);
