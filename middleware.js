@@ -1,8 +1,7 @@
-import { NextResponse } from 'next/server';
+import { rewrite } from '@vercel/functions';
 import { get } from '@vercel/edge-config';
 
 const ALL_NICHES = ['landscaper', 'contractor', 'restaurant', 'home-business'];
-const VARIANTS = 'abcdefghij';
 
 // Default: all niches have both variants active
 const DEFAULT_CONFIG = {
@@ -13,14 +12,15 @@ const DEFAULT_CONFIG = {
   'home-business': ['a', 'b'],
 };
 
-export async function middleware(request) {
-  const { pathname } = request.nextUrl;
+export default async function middleware(request) {
+  const url = new URL(request.url);
+  const { pathname } = url;
 
-  // Determine niche from path
+  // Only handle known niche paths and homepage
   const nicheSlug = ALL_NICHES.find(n => pathname === `/${n}` || pathname === `/${n}/`);
   const isHome = pathname === '/' || pathname === '/index.html';
 
-  if (!nicheSlug && !isHome) return NextResponse.next();
+  if (!nicheSlug && !isHome) return;
 
   const slug = nicheSlug || 'general';
 
@@ -33,11 +33,12 @@ export async function middleware(request) {
     activeVariants = DEFAULT_CONFIG[slug] || ['a'];
   }
 
-  // If no variants are active, serve variant 'a' as fallback
   if (!activeVariants.length) activeVariants = ['a'];
 
+  // Read existing variant cookie
+  const cookies = parseCookies(request.headers.get('cookie') || '');
   const cookieName = `variant_${slug}`;
-  const existingVariant = request.cookies.get(cookieName)?.value;
+  const existingVariant = cookies[cookieName];
 
   // Assign variant: use existing if still active, otherwise reassign
   let variant = existingVariant;
@@ -46,27 +47,30 @@ export async function middleware(request) {
   }
 
   // Rewrite to correct HTML file
-  let target;
   if (slug === 'general') {
-    target = variant === 'a' ? '/index.html' : `/general/${variant}.html`;
+    url.pathname = variant === 'a' ? '/index.html' : `/general/${variant}.html`;
   } else {
-    target = `/${slug}/${variant}.html`;
+    url.pathname = `/${slug}/${variant}.html`;
   }
 
-  const url = request.nextUrl.clone();
-  url.pathname = target;
-  const response = NextResponse.rewrite(url);
-
   // Set sticky cookie (30 days)
-  response.cookies.set(cookieName, variant, {
-    maxAge: 60 * 60 * 24 * 30,
-    path: '/',
-    sameSite: 'lax',
+  const maxAge = 60 * 60 * 24 * 30;
+  return rewrite(url, {
+    headers: {
+      'Set-Cookie': `${cookieName}=${variant}; Path=/; Max-Age=${maxAge}; SameSite=Lax`,
+    },
   });
-
-  return response;
 }
 
 export const config = {
   matcher: ['/', '/index.html', '/landscaper', '/landscaper/', '/contractor', '/contractor/', '/restaurant', '/restaurant/', '/home-business', '/home-business/'],
 };
+
+function parseCookies(cookieHeader) {
+  const cookies = {};
+  for (const pair of cookieHeader.split(';')) {
+    const [key, ...rest] = pair.trim().split('=');
+    if (key) cookies[key] = rest.join('=');
+  }
+  return cookies;
+}

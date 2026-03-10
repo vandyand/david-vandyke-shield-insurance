@@ -1,10 +1,12 @@
 {
   "name": "david-vandyke-insurance",
   "private": true,
+  "type": "module",
   "scripts": {
-    "build": "node build.js"
+    "build": "node build.cjs"
   },
   "dependencies": {
-    "@vercel/edge-config": "^1.4.3"
+    "@vercel/edge-config": "^1.4.3",
+    "@vercel/functions": "^3.4.3"
   }
 }
