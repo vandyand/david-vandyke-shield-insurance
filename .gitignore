@@ -17,6 +17,9 @@ Thumbs.db
 .vscode/
 .idea/
 
+# Dependencies
+node_modules/
+
 # Build output
 public/
 .vercel
