@@ -1,31 +1,48 @@
 import { NextResponse } from 'next/server';
+import { get } from '@vercel/edge-config';
 
-const NICHES = {
-  'landscaper': 2,
-  'contractor': 2,
-  'restaurant': 2,
-  'home-business': 2,
-};
+const ALL_NICHES = ['landscaper', 'contractor', 'restaurant', 'home-business'];
 const VARIANTS = 'abcdefghij';
 
-export function middleware(request) {
+// Default: all niches have both variants active
+const DEFAULT_CONFIG = {
+  'general': ['a', 'b'],
+  'landscaper': ['a', 'b'],
+  'contractor': ['a', 'b'],
+  'restaurant': ['a', 'b'],
+  'home-business': ['a', 'b'],
+};
+
+export async function middleware(request) {
   const { pathname } = request.nextUrl;
 
   // Determine niche from path
-  const nicheSlug = Object.keys(NICHES).find(n => pathname === `/${n}` || pathname === `/${n}/`);
+  const nicheSlug = ALL_NICHES.find(n => pathname === `/${n}` || pathname === `/${n}/`);
   const isHome = pathname === '/' || pathname === '/index.html';
 
   if (!nicheSlug && !isHome) return NextResponse.next();
 
   const slug = nicheSlug || 'general';
+
+  // Read active variants from Edge Config (with fallback)
+  let activeVariants;
+  try {
+    const abConfig = await get('ab_config');
+    activeVariants = abConfig?.[slug] || DEFAULT_CONFIG[slug] || ['a'];
+  } catch {
+    activeVariants = DEFAULT_CONFIG[slug] || ['a'];
+  }
+
+  // If no variants are active, serve variant 'a' as fallback
+  if (!activeVariants.length) activeVariants = ['a'];
+
   const cookieName = `variant_${slug}`;
   const existingVariant = request.cookies.get(cookieName)?.value;
-  const count = NICHES[nicheSlug] || 2;
 
-  // Assign variant if none exists or invalid
+  // Assign variant: use existing if still active, otherwise reassign
   let variant = existingVariant;
-  if (!variant || VARIANTS.indexOf(variant) === -1 || VARIANTS.indexOf(variant) >= count) {
-    variant = VARIANTS[Math.floor(Math.random() * count)];
+  if (!variant || !activeVariants.includes(variant)) {
+    variant = activeVariants[Math.floor(Math.random() * activeVariants.length)];
   }
 
   // Rewrite to correct HTML file
