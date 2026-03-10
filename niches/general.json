@@ -1,0 +1,158 @@
+{
+  "slug": "general",
+  "name": "David VanDyke Insurance",
+  "defaults": {
+    "hero_cta_url": "https://calendly.com/davidvd-shieldagency/15-minute-meeting",
+    "contact_cta_url": "https://calendly.com/davidvd-shieldagency/15-minute-meeting"
+  },
+  "variants": {
+    "a": {
+      "hero": {
+        "headline": "Insurance Made Personal",
+        "subheadline": "Honest advice. Better coverage. Your Michigan agent who puts you first.",
+        "cta_text": "Book a Free Consultation"
+      },
+      "why_choose": {
+        "headline": "Why Choose David?",
+        "intro": "As an independent agent, I work for you\u2014not an insurance company. That means I can shop multiple carriers to find the best coverage at the right price.",
+        "items": [
+          {
+            "icon": "handshake",
+            "title": "Independent & Unbiased",
+            "desc": "I work for you, not an insurance company. I shop multiple carriers to find the best fit for your needs and budget."
+          },
+          {
+            "icon": "map-pin",
+            "title": "Local & Personal",
+            "desc": "I'm a real person right here in Michigan. When you call, you get me\u2014not a call center."
+          },
+          {
+            "icon": "headphones",
+            "title": "Always Here for You",
+            "desc": "Whether it's a question about your policy or help with a claim, I'm just a call or text away."
+          },
+          {
+            "icon": "award",
+            "title": "10+ Years Experience",
+            "desc": "I've helped hundreds of families and businesses find the right coverage. I know what works."
+          }
+        ]
+      },
+      "services": {
+        "headline": "Insurance Services",
+        "intro": "I help families and businesses find the right coverage at the right price. Not sure what you need? Just ask.",
+        "items": [
+          {
+            "icon": "car",
+            "title": "Auto Insurance",
+            "desc": "Liability, collision, comprehensive, and Michigan no-fault coverage for your vehicles."
+          },
+          {
+            "icon": "home",
+            "title": "Homeowners Insurance",
+            "desc": "Protect your home, belongings, and liability with the right homeowners policy."
+          },
+          {
+            "icon": "heart",
+            "title": "Life Insurance",
+            "desc": "Term and permanent life insurance to protect the people who depend on you."
+          },
+          {
+            "icon": "briefcase",
+            "title": "Business Insurance",
+            "desc": "General liability, property, workers' comp, and more for Michigan businesses."
+          },
+          {
+            "icon": "hard-hat",
+            "title": "Contractors Insurance",
+            "desc": "Specialized coverage for electricians, plumbers, HVAC techs, and other tradespeople."
+          },
+          {
+            "icon": "shield",
+            "title": "Disability Insurance",
+            "desc": "Income protection if an illness or injury keeps you from working."
+          },
+          {
+            "icon": "cloud-rain",
+            "title": "Flood Insurance",
+            "desc": "Flood damage isn't covered by standard homeowners policies. I can help you get covered."
+          },
+          {
+            "icon": "stethoscope",
+            "title": "Health & Dental",
+            "desc": "Individual and family health and dental plans to keep you covered."
+          },
+          {
+            "icon": "users",
+            "title": "Medicare",
+            "desc": "Medicare Supplement and Medicare Advantage plans to fill the gaps in your coverage."
+          },
+          {
+            "icon": "calendar",
+            "title": "Special Event Insurance",
+            "desc": "Short-term coverage for weddings, festivals, and other events."
+          },
+          {
+            "icon": "help-circle",
+            "title": "Other Coverage",
+            "desc": "Umbrella, renters, RV, boat, motorcycle, and more. If you need it, I can probably help."
+          },
+          {
+            "icon": "paw-print",
+            "title": "Pet Insurance",
+            "desc": "Coverage for vet bills, surgeries, and medications to keep your pets healthy."
+          }
+        ]
+      },
+      "faq": {
+        "headline": "Frequently Asked Questions",
+        "items": [
+          {
+            "q": "What types of insurance do you offer?",
+            "a": "I can help with auto, home, life, Medicare, business, and more. If you're not sure where your need fits, just ask and I'll point you in the right direction."
+          },
+          {
+            "q": "Do you only serve Michigan?",
+            "a": "I'm licensed in Michigan and proudly serve families throughout the state, with a focus on West Michigan where I live and work. Shield Insurance Agency is licensed in additional states (AZ, FL, IL, IN, MO, NC, OH, UT), so if you're outside Michigan, I can connect you with a Shield agent in your area."
+          },
+          {
+            "q": "How do I get a quote?",
+            "a": "Send me a quick note through the contact form. I'll follow up by email with next steps and any info I need to get accurate quotes."
+          },
+          {
+            "q": "What information will you need from me?",
+            "a": "It depends on your situation, but I'll usually ask for basic driver details, vehicles, and your current address. For home coverage, I may ask about the property, roof age, and systems. I'll keep it simple and guide you through it."
+          },
+          {
+            "q": "Can you compare multiple carriers?",
+            "a": "Yes. Shield is an independent agency, which means I can shop multiple carriers to find the right fit for your coverage and budget."
+          },
+          {
+            "q": "Do you handle business insurance?",
+            "a": "Yes. I can help with business and contractor coverage as well as specialty needs like events and liability."
+          },
+          {
+            "q": "How fast will you respond?",
+            "a": "I do my best to respond quickly, usually within one business day."
+          },
+          {
+            "q": "Why work with a local agent?",
+            "a": "You get a real person who knows the area and will be there when you need help, especially if you have a claim."
+          }
+        ]
+      },
+      "contact": {
+        "headline": "Book a free consultation",
+        "subheadline": "Pick a time that works for you and I'll walk you through your options.",
+        "cta_text": "Schedule Your Free 15-Min Call"
+      }
+    },
+    "b": {
+      "hero": {
+        "headline": "Protect What Matters Most",
+        "subheadline": "Compare 50+ carriers in one call. Your independent Michigan agent who finds you better coverage for less.",
+        "cta_text": "Schedule a Call"
+      }
+    }
+  }
+}

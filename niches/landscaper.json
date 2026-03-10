@@ -1,0 +1,102 @@
+{
+  "slug": "landscaper",
+  "name": "Landscaping Insurance | David VanDyke",
+  "defaults": {
+    "hero_cta_url": "https://calendly.com/davidvd-shieldagency/15-minute-meeting",
+    "contact_cta_url": "https://calendly.com/davidvd-shieldagency/15-minute-meeting"
+  },
+  "variants": {
+    "a": {
+      "hero": {
+        "headline": "Insurance Built for Landscapers",
+        "subheadline": "General liability, commercial auto, equipment coverage \u2014 all from one agent who understands your business.",
+        "cta_text": "Book a Free Consultation"
+      },
+      "why_choose": {
+        "headline": "Why Landscapers Choose David",
+        "intro": "As an independent agent, I shop 50+ carriers so your landscaping business gets the right coverage at the best rate.",
+        "items": [
+          {
+            "icon": "handshake",
+            "title": "I Know Your Business",
+            "desc": "I work with landscapers across Michigan and understand the specific risks you face every day."
+          },
+          {
+            "icon": "search",
+            "title": "Multiple Carriers",
+            "desc": "I shop your coverage across 50+ carriers to find the best rate without cutting corners."
+          },
+          {
+            "icon": "clock",
+            "title": "Fast COIs",
+            "desc": "Need a certificate of insurance for a new client? I get them out fast so you don't lose the job."
+          },
+          {
+            "icon": "headphones",
+            "title": "Real Person, Real Help",
+            "desc": "When you have a claim or question, you call me directly \u2014 not a 1-800 number."
+          }
+        ]
+      },
+      "services": {
+        "headline": "Coverage for Your Landscaping Business",
+        "intro": "Protect your crew, your equipment, and your reputation with the right business insurance.",
+        "items": [
+          {
+            "icon": "shield",
+            "title": "General Liability",
+            "desc": "Protection when your crew damages a client's property or someone gets injured on a job site."
+          },
+          {
+            "icon": "car",
+            "title": "Commercial Auto",
+            "desc": "Coverage for your trucks, trailers, and the equipment they carry."
+          },
+          {
+            "icon": "wrench",
+            "title": "Equipment & Tools",
+            "desc": "Protect your mowers, blowers, and other expensive equipment from theft and damage."
+          },
+          {
+            "icon": "users",
+            "title": "Workers' Compensation",
+            "desc": "Required coverage that protects your employees and your business."
+          }
+        ]
+      },
+      "faq": {
+        "headline": "Frequently Asked Questions",
+        "items": [
+          {
+            "q": "Do I need insurance for my landscaping business?",
+            "a": "Yes. Most clients and municipalities require proof of general liability before you can work on their property."
+          },
+          {
+            "q": "What does general liability cover?",
+            "a": "It covers property damage you cause at a job site, injuries to non-employees, and legal defense costs if you're sued."
+          },
+          {
+            "q": "How fast can I get a certificate of insurance?",
+            "a": "Usually within 24 hours of binding your policy. I know you need COIs fast to land jobs."
+          },
+          {
+            "q": "Can you cover my seasonal workers?",
+            "a": "Yes. Workers' comp policies can be structured to account for seasonal fluctuations in your crew size."
+          }
+        ]
+      },
+      "contact": {
+        "headline": "Get Your Landscaping Business Covered",
+        "subheadline": "15-minute call \u2014 I'll walk you through exactly what coverage you need.",
+        "cta_text": "Schedule Your Free 15-Min Call"
+      }
+    },
+    "b": {
+      "hero": {
+        "headline": "Stop Worrying About Lawsuits. Start Growing Your Business.",
+        "subheadline": "One call. Multiple quotes. Coverage that keeps your landscaping crew working.",
+        "cta_text": "Get Protected Today"
+      }
+    }
+  }
+}

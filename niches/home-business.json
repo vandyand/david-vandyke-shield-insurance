@@ -1,0 +1,102 @@
+{
+  "slug": "home-business",
+  "name": "Home Business Insurance | David VanDyke",
+  "defaults": {
+    "hero_cta_url": "https://calendly.com/davidvd-shieldagency/15-minute-meeting",
+    "contact_cta_url": "https://calendly.com/davidvd-shieldagency/15-minute-meeting"
+  },
+  "variants": {
+    "a": {
+      "hero": {
+        "headline": "Your Homeowners Policy Doesn't Cover Your Side Hustle",
+        "subheadline": "Etsy shops, consulting, home bakeries \u2014 if you run a business from home, you need separate coverage.",
+        "cta_text": "Book a Free Consultation"
+      },
+      "why_choose": {
+        "headline": "Why Home Business Owners Choose David",
+        "intro": "Most people don't realize their homeowners policy excludes business activity. I help close that gap with affordable coverage.",
+        "items": [
+          {
+            "icon": "handshake",
+            "title": "I Simplify the Confusing Part",
+            "desc": "Home business insurance is tricky. I'll explain exactly what you need in plain English."
+          },
+          {
+            "icon": "search",
+            "title": "Affordable Options",
+            "desc": "I shop 50+ carriers to find coverage that fits a home business budget \u2014 not a corporate one."
+          },
+          {
+            "icon": "shield",
+            "title": "Close the Coverage Gap",
+            "desc": "Your homeowners policy likely excludes business activity. I make sure you're actually protected."
+          },
+          {
+            "icon": "headphones",
+            "title": "Personal Service",
+            "desc": "You'll work with me directly \u2014 not a website or chatbot."
+          }
+        ]
+      },
+      "services": {
+        "headline": "Coverage for Home-Based Businesses",
+        "intro": "Whether you sell online, consult, or create \u2014 protect your business without the big-business price tag.",
+        "items": [
+          {
+            "icon": "shield",
+            "title": "General Liability",
+            "desc": "Covers claims if a client visits your home office and gets injured, or if your product causes harm."
+          },
+          {
+            "icon": "briefcase",
+            "title": "Business Property",
+            "desc": "Protects your business equipment, inventory, and supplies \u2014 things your homeowners policy won't cover."
+          },
+          {
+            "icon": "file-text",
+            "title": "Professional Liability",
+            "desc": "For consultants and service providers \u2014 covers claims of errors, negligence, or bad advice."
+          },
+          {
+            "icon": "car",
+            "title": "Commercial Auto",
+            "desc": "If you deliver products or drive to client sites, your personal auto policy may not cover you."
+          }
+        ]
+      },
+      "faq": {
+        "headline": "Frequently Asked Questions",
+        "items": [
+          {
+            "q": "Does my homeowners insurance cover my home business?",
+            "a": "Almost certainly not. Most homeowners policies specifically exclude business activities, equipment, and liability."
+          },
+          {
+            "q": "I just sell on Etsy \u2014 do I really need insurance?",
+            "a": "If a customer claims your product injured them, your homeowners policy won't help. Even small sellers face real liability."
+          },
+          {
+            "q": "How much does home business insurance cost?",
+            "a": "Many home business policies start under $500/year. I'll compare options to find the most affordable coverage for your situation."
+          },
+          {
+            "q": "Can I bundle this with my homeowners policy?",
+            "a": "Sometimes, yes. Some carriers offer endorsements that add business coverage to your existing homeowners policy, which can save money."
+          }
+        ]
+      },
+      "contact": {
+        "headline": "Protect Your Home Business",
+        "subheadline": "15-minute call \u2014 I'll show you exactly where your coverage gaps are.",
+        "cta_text": "Schedule Your Free 15-Min Call"
+      }
+    },
+    "b": {
+      "hero": {
+        "headline": "Protect Your Business Without the Big-Business Price Tag",
+        "subheadline": "Home-based business insurance starting under $500/year. One call to find out what you actually need.",
+        "cta_text": "Find Out What You Need"
+      }
+    }
+  }
+}

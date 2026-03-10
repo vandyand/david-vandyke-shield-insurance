@@ -1,0 +1,102 @@
+{
+  "slug": "contractor",
+  "name": "Contractor Insurance | David VanDyke",
+  "defaults": {
+    "hero_cta_url": "https://calendly.com/davidvd-shieldagency/15-minute-meeting",
+    "contact_cta_url": "https://calendly.com/davidvd-shieldagency/15-minute-meeting"
+  },
+  "variants": {
+    "a": {
+      "hero": {
+        "headline": "Insurance for Skilled Tradespeople",
+        "subheadline": "Electricians, HVAC techs, plumbers, painters \u2014 I find the right coverage so you can focus on the job.",
+        "cta_text": "Book a Free Consultation"
+      },
+      "why_choose": {
+        "headline": "Why Contractors Choose David",
+        "intro": "I work with tradespeople across Michigan every day. I know what you need and how to get it fast.",
+        "items": [
+          {
+            "icon": "handshake",
+            "title": "Trade-Specific Expertise",
+            "desc": "I understand contractor risks \u2014 from job site injuries to property damage \u2014 and build policies to match."
+          },
+          {
+            "icon": "search",
+            "title": "50+ Carriers Compared",
+            "desc": "I shop the market so you get the right coverage at a competitive price. No settling for one-size-fits-all."
+          },
+          {
+            "icon": "clock",
+            "title": "COIs When You Need Them",
+            "desc": "Certificates of insurance delivered fast so you never lose a bid waiting on paperwork."
+          },
+          {
+            "icon": "headphones",
+            "title": "Direct Access",
+            "desc": "Call or text me directly. No phone trees, no waiting on hold, no runaround."
+          }
+        ]
+      },
+      "services": {
+        "headline": "Coverage for Contractors",
+        "intro": "From general liability to workers' comp, I'll make sure your trade is properly covered.",
+        "items": [
+          {
+            "icon": "shield",
+            "title": "General Liability",
+            "desc": "Covers property damage and bodily injury claims that happen on the job."
+          },
+          {
+            "icon": "users",
+            "title": "Workers' Compensation",
+            "desc": "Protect your crew and meet state requirements with the right workers' comp policy."
+          },
+          {
+            "icon": "car",
+            "title": "Commercial Auto",
+            "desc": "Coverage for your work vehicles, vans, and the tools inside them."
+          },
+          {
+            "icon": "file-text",
+            "title": "Contractor Bonds",
+            "desc": "Surety bonds required by many municipalities and general contractors."
+          }
+        ]
+      },
+      "faq": {
+        "headline": "Frequently Asked Questions",
+        "items": [
+          {
+            "q": "What insurance do contractors need in Michigan?",
+            "a": "At minimum, general liability and workers' comp (if you have employees). Many GCs also require you to carry commercial auto."
+          },
+          {
+            "q": "How much does contractor insurance cost?",
+            "a": "It depends on your trade, crew size, and revenue. I compare multiple carriers to find the best rate \u2014 most tradespeople are surprised how affordable it can be."
+          },
+          {
+            "q": "Do I need insurance if I'm a sole proprietor?",
+            "a": "Yes. Even without employees, general liability protects you from property damage and injury claims at job sites."
+          },
+          {
+            "q": "How quickly can I get proof of insurance?",
+            "a": "Usually within 24 hours. I know you can't afford to wait when a GC needs your COI."
+          }
+        ]
+      },
+      "contact": {
+        "headline": "Get Your Contracting Business Covered",
+        "subheadline": "15-minute call. I'll tell you exactly what coverage you need for your trade.",
+        "cta_text": "Schedule Your Free 15-Min Call"
+      }
+    },
+    "b": {
+      "hero": {
+        "headline": "One Accident Could Shut Down Your Business",
+        "subheadline": "Don't risk everything you've built. Get the right contractor insurance in one 15-minute call.",
+        "cta_text": "Get Protected Now"
+      }
+    }
+  }
+}

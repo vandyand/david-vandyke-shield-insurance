@@ -1,0 +1,107 @@
+{
+  "slug": "restaurant",
+  "name": "Restaurant Insurance | David VanDyke",
+  "defaults": {
+    "hero_cta_url": "https://calendly.com/davidvd-shieldagency/15-minute-meeting",
+    "contact_cta_url": "https://calendly.com/davidvd-shieldagency/15-minute-meeting"
+  },
+  "variants": {
+    "a": {
+      "hero": {
+        "headline": "Complete Coverage for Your Restaurant",
+        "subheadline": "Liquor liability, property, workers' comp, general liability \u2014 all from one independent agent.",
+        "cta_text": "Book a Free Consultation"
+      },
+      "why_choose": {
+        "headline": "Why Restaurant Owners Choose David",
+        "intro": "I work with restaurants and bars across Michigan. I know the risks you face and how to cover them affordably.",
+        "items": [
+          {
+            "icon": "handshake",
+            "title": "Restaurant Industry Experience",
+            "desc": "I understand the unique risks restaurants face \u2014 from kitchen fires to slip-and-falls to liquor liability."
+          },
+          {
+            "icon": "search",
+            "title": "Multiple Carriers",
+            "desc": "I compare quotes from 50+ carriers to find coverage that fits your restaurant's needs and budget."
+          },
+          {
+            "icon": "shield",
+            "title": "Full Coverage Packages",
+            "desc": "GL, property, liquor liability, workers' comp, EPLI \u2014 I bundle everything so nothing falls through the cracks."
+          },
+          {
+            "icon": "headphones",
+            "title": "A Real Person When It Matters",
+            "desc": "When you have a claim at 2 AM, you want to reach a person who knows your policy \u2014 not a call center."
+          }
+        ]
+      },
+      "services": {
+        "headline": "Coverage for Restaurants & Bars",
+        "intro": "Protect your business, your staff, and your customers with the right insurance package.",
+        "items": [
+          {
+            "icon": "shield",
+            "title": "General Liability",
+            "desc": "Covers customer injuries, property damage, and legal defense costs."
+          },
+          {
+            "icon": "wine",
+            "title": "Liquor Liability",
+            "desc": "Required if you serve alcohol. Covers claims arising from intoxicated patrons."
+          },
+          {
+            "icon": "home",
+            "title": "Property Insurance",
+            "desc": "Protects your building, kitchen equipment, furniture, and inventory."
+          },
+          {
+            "icon": "users",
+            "title": "Workers' Compensation",
+            "desc": "Covers employee injuries \u2014 essential in a high-risk kitchen environment."
+          },
+          {
+            "icon": "flame",
+            "title": "Business Interruption",
+            "desc": "Replaces lost income if a fire, flood, or other disaster forces you to close temporarily."
+          }
+        ]
+      },
+      "faq": {
+        "headline": "Frequently Asked Questions",
+        "items": [
+          {
+            "q": "Do I need liquor liability insurance?",
+            "a": "Yes, if you serve alcohol. Michigan law holds you responsible for damages caused by intoxicated patrons you served."
+          },
+          {
+            "q": "What does restaurant insurance typically cost?",
+            "a": "It varies based on your revenue, number of employees, and whether you serve alcohol. I compare multiple carriers to find the best rate."
+          },
+          {
+            "q": "Does my policy cover food spoilage?",
+            "a": "It can. I'll make sure your property policy includes food spoilage coverage so you're protected if equipment fails."
+          },
+          {
+            "q": "Can you cover my food truck too?",
+            "a": "Yes. I can set up a commercial auto and GL policy for food trucks and mobile food operations."
+          }
+        ]
+      },
+      "contact": {
+        "headline": "Get Your Restaurant Covered",
+        "subheadline": "15-minute call \u2014 let's make sure your restaurant has the right protection.",
+        "cta_text": "Schedule Your Free 15-Min Call"
+      }
+    },
+    "b": {
+      "hero": {
+        "headline": "Liquor Liability. Slip-and-Falls. Kitchen Fires. Are You Covered?",
+        "subheadline": "One call. One agent. Complete restaurant insurance from 50+ carriers.",
+        "cta_text": "Get a Free Quote"
+      }
+    }
+  }
+}
