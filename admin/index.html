@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Dashboard | David VanDyke Insurance</title>
+  <meta name="robots" content="noindex, nofollow">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: { DEFAULT: '#1a365d', light: '#2c5282', dark: '#1a202c' },
+            gold: { DEFAULT: '#d69e2e', light: '#ecc94b', dark: '#b7791f' }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen font-sans">
+  <div id="login-screen" class="min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-xl shadow-lg max-w-sm w-full">
+      <h1 class="text-2xl font-bold text-navy mb-6 text-center">Admin Dashboard</h1>
+      <form id="login-form" class="flex flex-col gap-4">
+        <input id="password-input" type="password" placeholder="Enter password"
+          class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-gold">
+        <button type="submit"
+          class="bg-gold text-navy font-bold py-3 rounded-lg hover:bg-gold-dark transition-colors">
+          Log In
+        </button>
+        <p id="login-error" class="text-red-600 text-sm text-center hidden">Incorrect password</p>
+      </form>
+    </div>
+  </div>
+
+  <div id="dashboard" class="hidden">
+    <header class="bg-navy text-white px-6 py-4 flex justify-between items-center">
+      <h1 class="text-xl font-bold">A/B Test Dashboard</h1>
+      <div class="flex items-center gap-4">
+        <span id="status" class="text-sm text-green-400">Loaded</span>
+        <button id="logout-btn" class="text-white/70 hover:text-white text-sm">Logout</button>
+      </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-8">
+      <div id="niches-container" class="flex flex-col gap-6"></div>
+
+      <div class="mt-8 flex justify-end">
+        <button id="save-btn"
+          class="bg-gold text-navy font-bold px-8 py-3 rounded-lg shadow hover:bg-gold-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled>
+          Save Changes
+        </button>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // ── State ─────────────────────────────────────────────────────────────
+    let password = '';
+    let config = null;    // current saved state
+    let pending = null;   // pending changes
+
+    // All known niches and their possible variants (from build system)
+    const NICHES = {
+      'general':       { name: 'General (Homepage)', variants: ['a', 'b'], path: '/' },
+      'landscaper':    { name: 'Landscaper', variants: ['a', 'b'], path: '/landscaper' },
+      'contractor':    { name: 'Contractor', variants: ['a', 'b'], path: '/contractor' },
+      'restaurant':    { name: 'Restaurant', variants: ['a', 'b'], path: '/restaurant' },
+      'home-business': { name: 'Home Business', variants: ['a', 'b'], path: '/home-business' },
+    };
+
+    // ── API helpers ───────────────────────────────────────────────────────
+    async function apiGet() {
+      const res = await fetch('/api/config', {
+        headers: { 'Authorization': `Bearer ${password}` },
+      });
+      if (res.status === 401) throw new Error('Unauthorized');
+      return res.json();
+    }
+
+    async function apiPost(abConfig) {
+      const res = await fetch('/api/config', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${password}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ab_config: abConfig }),
+      });
+      if (!res.ok) throw new Error('Save failed');
+      return res.json();
+    }
+
+    // ── Render ─────────────────────────────────────────────────────────────
+    function previewUrl(slug, variant) {
+      if (slug === 'general') {
+        return variant === 'a' ? '/index.html' : `/general/${variant}.html`;
+      }
+      return `/${slug}/${variant}.html`;
+    }
+
+    function render() {
+      const container = document.getElementById('niches-container');
+      container.innerHTML = '';
+
+      for (const [slug, info] of Object.entries(NICHES)) {
+        const active = pending[slug] || [];
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-xl shadow border border-gray-200 p-6';
+        card.innerHTML = `
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-bold text-navy">${info.name}</h2>
+            <a href="${info.path}" target="_blank" class="text-sm text-gold-dark hover:underline">View live page &rarr;</a>
+          </div>
+          <div class="flex flex-col gap-3">
+            ${info.variants.map(v => {
+              const isActive = active.includes(v);
+              return `
+                <div class="flex items-center justify-between p-3 rounded-lg border ${isActive ? 'border-green-200 bg-green-50' : 'border-gray-200 bg-gray-50'}">
+                  <div class="flex items-center gap-3">
+                    <span class="text-navy font-semibold text-sm uppercase w-8">V${v.toUpperCase()}</span>
+                    <a href="${previewUrl(slug, v)}" target="_blank" class="text-sm text-navy hover:text-gold-dark underline">Preview</a>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer" ${isActive ? 'checked' : ''}
+                      data-slug="${slug}" data-variant="${v}"
+                      onchange="toggleVariant('${slug}', '${v}', this.checked)">
+                    <div class="w-11 h-6 bg-gray-300 peer-checked:bg-green-500 rounded-full
+                      after:content-[''] after:absolute after:top-[2px] after:left-[2px]
+                      after:bg-white after:rounded-full after:h-5 after:w-5
+                      after:transition-all peer-checked:after:translate-x-full"></div>
+                  </label>
+                </div>`;
+            }).join('')}
+          </div>
+        `;
+        container.appendChild(card);
+      }
+
+      // Update save button state
+      const hasChanges = JSON.stringify(pending) !== JSON.stringify(config);
+      document.getElementById('save-btn').disabled = !hasChanges;
+      document.getElementById('status').textContent = hasChanges ? 'Unsaved changes' : 'Saved';
+      document.getElementById('status').className = hasChanges ? 'text-sm text-yellow-400' : 'text-sm text-green-400';
+    }
+
+    // ── Actions ────────────────────────────────────────────────────────────
+    function toggleVariant(slug, variant, checked) {
+      let active = [...(pending[slug] || [])];
+      if (checked && !active.includes(variant)) {
+        active.push(variant);
+        active.sort();
+      } else if (!checked) {
+        active = active.filter(v => v !== variant);
+      }
+      // Don't allow disabling all variants
+      if (active.length === 0) {
+        alert('At least one variant must be active.');
+        render();
+        return;
+      }
+      pending[slug] = active;
+      render();
+    }
+
+    // ── Login ──────────────────────────────────────────────────────────────
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      password = document.getElementById('password-input').value;
+      try {
+        const data = await apiGet();
+        // If ab_config is null (first time), initialize with all variants active
+        config = data.ab_config || Object.fromEntries(
+          Object.entries(NICHES).map(([slug, info]) => [slug, [...info.variants]])
+        );
+        pending = JSON.parse(JSON.stringify(config));
+        document.getElementById('login-screen').classList.add('hidden');
+        document.getElementById('dashboard').classList.remove('hidden');
+        render();
+      } catch {
+        document.getElementById('login-error').classList.remove('hidden');
+      }
+    });
+
+    // ── Save ───────────────────────────────────────────────────────────────
+    document.getElementById('save-btn').addEventListener('click', async () => {
+      const btn = document.getElementById('save-btn');
+      btn.disabled = true;
+      btn.textContent = 'Saving...';
+      document.getElementById('status').textContent = 'Saving...';
+      document.getElementById('status').className = 'text-sm text-yellow-400';
+      try {
+        await apiPost(pending);
+        config = JSON.parse(JSON.stringify(pending));
+        document.getElementById('status').textContent = 'Saved — changes go live within 10 seconds';
+        document.getElementById('status').className = 'text-sm text-green-400';
+      } catch {
+        document.getElementById('status').textContent = 'Save failed!';
+        document.getElementById('status').className = 'text-sm text-red-400';
+      }
+      btn.textContent = 'Save Changes';
+      render();
+    });
+
+    // ── Logout ─────────────────────────────────────────────────────────────
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      password = '';
+      config = null;
+      pending = null;
+      document.getElementById('dashboard').classList.add('hidden');
+      document.getElementById('login-screen').classList.remove('hidden');
+      document.getElementById('password-input').value = '';
+      document.getElementById('login-error').classList.add('hidden');
+    });
+  </script>
+</body>
+</html>
