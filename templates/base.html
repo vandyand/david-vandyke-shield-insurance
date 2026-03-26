@@ -178,7 +178,18 @@ if (servicesBtn) {
   <!-- Conversion tracking: fires when a Calendly booking is completed -->
   <script>
   window.addEventListener('message', function(e) {
-    if (e.data && e.data.event === 'calendly.event_scheduled') {
+    if (!e.data || !e.data.event) return;
+
+    // Auto-resize the Calendly widget to avoid internal scrollbars
+    if (e.data.event === 'calendly.event_type_viewed' || e.data.event === 'calendly.profile_page_viewed') {
+      var h = e.data.payload && e.data.payload.height;
+      if (h) {
+        var widget = document.querySelector('.calendly-inline-widget');
+        if (widget) widget.style.height = (h + 50) + 'px';
+      }
+    }
+
+    if (e.data.event === 'calendly.event_scheduled') {
       var variant = document.body.dataset.variant || 'unknown';
       var niche = document.body.dataset.niche || 'unknown';
       // Meta Pixel
