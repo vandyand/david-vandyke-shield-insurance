@@ -112,6 +112,12 @@
         display: block !important;
       }
     }
+    /* A/B: early CTA placement
+       Variant A (default): embed at bottom only
+       Variant B: embed after hero, hide embed at bottom */
+    #contact-early { display: none; }
+    body[data-variant="b"] #contact-early { display: block; }
+    body[data-variant="b"] #contact-embed-wrapper { display: none; }
   </style>
 </head>
 <body class="font-sans text-gray-600 leading-relaxed" data-variant="{{variant_id}}" data-niche="{{niche_slug}}">
@@ -120,6 +126,7 @@
   <!-- Main Content -->
   <main>
     {{section:hero}}
+    {{section:contact-early}}
     {{section:why-choose}}
     {{section:services}}
     {{section:about}}
