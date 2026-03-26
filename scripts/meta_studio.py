@@ -10,6 +10,8 @@ Usage:
   python3 scripts/meta_studio.py list                            # List saved creatives
   python3 scripts/meta_studio.py upload <image_file>            # Upload image to Meta
   python3 scripts/meta_studio.py create-ad <adset_id> <niche> <image_hash> # Create ad in Meta
+  python3 scripts/meta_studio.py create-dco <adset_id> <niche> \\
+      --image-hashes h1,h2,h3 --headlines "H1|H2|H3" --bodies "B1|B2" # DCO ad
 """
 
 import os
@@ -340,6 +342,140 @@ def cmd_create_ad(adset_id, niche, image_hash):
     else:
         print('  ✗ Failed to create ad.')
 
+
+def utm_url(niche):
+    """Return the UTM-tagged landing URL for a niche."""
+    spec = NICHE_AD_SPECS[niche]
+    return (
+        spec['url']
+        + '?utm_source=facebook&utm_medium=paid'
+        + '&utm_campaign=shield-insurance&utm_content=' + niche
+    )
+
+
+def cmd_create_dco(adset_id, niche, image_hashes, headlines, bodies,
+                   enable_advantage_plus=True, yes=False):
+    if niche not in NICHE_AD_SPECS:
+        print(f'Unknown niche: {niche}. Options: {", ".join(NICHE_AD_SPECS.keys())}')
+        return
+
+    # ── Validate counts ───────────────────────────────────────────────────────
+    if not (2 <= len(image_hashes) <= 10):
+        print(f'--image-hashes requires 2–10 hashes (got {len(image_hashes)}).')
+        return
+    if not (2 <= len(headlines) <= 5):
+        print(f'--headlines requires 2–5 headlines (got {len(headlines)}).')
+        return
+    if not (1 <= len(bodies) <= 3):
+        print(f'--bodies requires 1–3 body variants (got {len(bodies)}).')
+        return
+
+    landing_url = utm_url(niche)
+    date = datetime.now().strftime('%Y-%m-%d')
+    combos = len(image_hashes) * len(headlines) * len(bodies)
+
+    # ── Print summary ─────────────────────────────────────────────────────────
+    print()
+    print('═══════════════════════════════════════')
+    print(f'  CREATE DCO AD — {niche}')
+    print('═══════════════════════════════════════')
+    print()
+    print(f'Ad Set:   {adset_id}')
+    print(f'Niche:    {niche}')
+    print(f'Landing:  {landing_url}')
+    print()
+    print('Creative pool:')
+    print(f'  Images:    {len(image_hashes)} variants')
+    print(f'  Headlines: {len(headlines)} variants')
+    print(f'  Bodies:    {len(bodies)} variants')
+    print(f'  Combos:    {combos} possible combinations (Meta will find the winners)')
+    print()
+    if enable_advantage_plus:
+        print('Advantage+ Creative: enabled')
+    else:
+        print('Advantage+ Creative: disabled')
+    print()
+
+    if not yes and not confirm('Create this DCO ad (PAUSED) in Meta?'):
+        print('Cancelled.')
+        return
+
+    print()
+
+    # ── Build asset_feed_spec ─────────────────────────────────────────────────
+    asset_feed_spec = {
+        'images': [{'hash': h} for h in image_hashes],
+        'titles': [{'text': t} for t in headlines],
+        'bodies': [{'text': b} for b in bodies],
+        'call_to_action_types': ['LEARN_MORE'],
+        'link_urls': [{'website_url': landing_url, 'display_url': 'davidvandykeinsurance.com'}],
+    }
+
+    # ── Create DCO creative ───────────────────────────────────────────────────
+    creative_data = urllib.parse.urlencode({
+        'access_token': FB_TOKEN,
+        'name': f'Shield DCO — {niche} — {date}',
+        'asset_feed_spec': json.dumps(asset_feed_spec),
+    }).encode()
+
+    req = urllib.request.Request(
+        f'{FB_BASE}/act_{ACCOUNT_ID}/adcreatives',
+        data=creative_data,
+        method='POST'
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=15) as r:
+            creative_resp = json.loads(r.read())
+    except urllib.error.HTTPError as e:
+        err = json.loads(e.read())
+        print(f'  ✗ Creative error: {err.get("error", {}).get("message")}')
+        return
+
+    creative_id = creative_resp.get('id')
+    if not creative_id:
+        print(f'  ✗ No creative ID returned: {creative_resp}')
+        return
+    print(f'  ✓ Creative created (id: {creative_id})')
+
+    # ── Create ad (PAUSED) ────────────────────────────────────────────────────
+    ad_params = {
+        'access_token': FB_TOKEN,
+        'name': f'Shield DCO — {niche} — {date}',
+        'adset_id': adset_id,
+        'creative': json.dumps({'creative_id': creative_id}),
+        'status': 'PAUSED',
+    }
+    if enable_advantage_plus:
+        ad_params['degrees_of_freedom_spec'] = json.dumps({
+            'creative_features_spec': {
+                'standard_enhancements': {'enroll_status': 'OPT_IN'}
+            }
+        })
+
+    ad_data = urllib.parse.urlencode(ad_params).encode()
+    req = urllib.request.Request(
+        f'{FB_BASE}/act_{ACCOUNT_ID}/ads',
+        data=ad_data,
+        method='POST'
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=15) as r:
+            ad_resp = json.loads(r.read())
+    except urllib.error.HTTPError as e:
+        err = json.loads(e.read())
+        print(f'  ✗ Ad error: {err.get("error", {}).get("message")}')
+        return
+
+    ad_id = ad_resp.get('id')
+    if not ad_id:
+        print(f'  ✗ No ad ID returned: {ad_resp}')
+        return
+    print(f'  ✓ Ad created PAUSED (id: {ad_id})')
+    print()
+    print('  Activate in Meta Ads Manager after review.')
+    print('  Meta will start optimizing combinations within 24-48 hours.')
+
+
 # ── Entry point ───────────────────────────────────────────────────────────────
 
 def main():
@@ -361,6 +497,19 @@ def main():
     ca.add_argument('niche', choices=list(NICHE_AD_SPECS.keys()))
     ca.add_argument('image_hash')
 
+    dco = sub.add_parser('create-dco', help='Create a Dynamic Creative Optimization ad in Meta')
+    dco.add_argument('adset_id')
+    dco.add_argument('niche', choices=list(NICHE_AD_SPECS.keys()))
+    dco.add_argument('--image-hashes', required=True,
+                     help='Comma-separated image hashes (2–10)')
+    dco.add_argument('--headlines', required=True,
+                     help='Pipe-separated headline variants (2–5)')
+    dco.add_argument('--bodies', required=True,
+                     help='Pipe-separated body copy variants (1–3)')
+    dco.add_argument('--enable-advantage-plus', action='store_true', default=True,
+                     help='Enable Advantage+ Creative enhancements (default: True)')
+    dco.add_argument('--yes', action='store_true', help='Skip confirmation prompt')
+
     args = parser.parse_args()
 
     if not args.command:
@@ -370,7 +519,7 @@ def main():
     missing = []
     if args.command in ('generate', 'list') and not IDEOGRAM_KEY:
         missing.append('IDEOGRAM_API_KEY')
-    if args.command in ('upload', 'create-ad') and not FB_TOKEN:
+    if args.command in ('upload', 'create-ad', 'create-dco') and not FB_TOKEN:
         missing.append('FACEBOOK_BUSINESS_TOKEN')
     if missing:
         print(f'Missing env vars: {", ".join(missing)}. Run: source ~/.bashrc')
@@ -384,6 +533,19 @@ def main():
         cmd_upload(args.image_file)
     elif args.command == 'create-ad':
         cmd_create_ad(args.adset_id, args.niche, args.image_hash)
+    elif args.command == 'create-dco':
+        image_hashes = [h.strip() for h in args.image_hashes.split(',') if h.strip()]
+        headlines = [h.strip() for h in args.headlines.split('|') if h.strip()]
+        bodies = [b.strip() for b in args.bodies.split('|') if b.strip()]
+        cmd_create_dco(
+            args.adset_id,
+            args.niche,
+            image_hashes,
+            headlines,
+            bodies,
+            enable_advantage_plus=args.enable_advantage_plus,
+            yes=args.yes,
+        )
 
 if __name__ == '__main__':
     main()
