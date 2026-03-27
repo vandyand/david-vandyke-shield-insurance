@@ -112,6 +112,14 @@
         display: block !important;
       }
     }
+    /* Hide Calendly widget scrollbar — content fits, scrollbar is cosmetic noise */
+    .calendly-inline-widget {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .calendly-inline-widget::-webkit-scrollbar {
+      display: none;
+    }
     /* A/B: early CTA placement
        Variant A (default): embed at bottom only
        Variant B: embed after hero, hide embed at bottom */
