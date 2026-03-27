@@ -190,6 +190,25 @@ if (servicesBtn) {
   <!-- Calendly widget script -->
   <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 
+  <!-- Remove scrollbar from Calendly iframes as soon as they're created -->
+  <script>
+  (function() {
+    var observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        mutation.addedNodes.forEach(function(node) {
+          if (node.nodeName === 'IFRAME' && node.closest && node.closest('.calendly-inline-widget')) {
+            node.setAttribute('scrolling', 'no');
+            node.style.overflow = 'hidden';
+          }
+        });
+      });
+    });
+    document.querySelectorAll('.calendly-inline-widget').forEach(function(widget) {
+      observer.observe(widget, { childList: true, subtree: true });
+    });
+  })();
+  </script>
+
   <!-- Conversion tracking: fires when a Calendly booking is completed -->
   <script>
   window.addEventListener('message', function(e) {
