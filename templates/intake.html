@@ -241,11 +241,25 @@ body {
   min-width: 120px;
   text-align: center;
 }
-/* 5+ options: equal-width boxes, 3 per row, last row centered */
-.choice-grid.cols-3 { justify-content: center; }
-.choice-grid.cols-3 .choice-btn { flex: 0 1 calc((100% - 20px) / 3); min-width: 0; }
+/* 5+ options: uniform boxes (equal width AND height), 3 per row, 2 centered below */
+.choice-grid.cols-3 {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: 1fr; /* every row matches the tallest button */
+}
+.choice-grid.cols-3 .choice-btn {
+  grid-column: span 2;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* shift the 4th of 5 right one slot so the final pair sits centered */
+.choice-grid.cols-3 .choice-btn:nth-child(3n+1):nth-last-child(2) { grid-column: 2 / span 2; }
 @media (max-width: 480px) {
-  .choice-grid.cols-3 .choice-btn { flex: 0 1 calc((100% - 10px) / 2); }
+  .choice-grid.cols-3 { grid-template-columns: repeat(4, 1fr); }
+  .choice-grid.cols-3 .choice-btn:nth-child(3n+1):nth-last-child(2) { grid-column: span 2; }
+  .choice-grid.cols-3 .choice-btn:nth-child(odd):last-child { grid-column: 2 / span 2; }
 }
 .choice-btn:hover { border-color: #1a365d; color: #1a365d; background: #f0f5ff; }
 .choice-btn.selected { border-color: #1a365d; background: #1a365d; color: white; }
