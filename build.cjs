@@ -184,6 +184,26 @@ for (const file of fs.readdirSync(imgSrc)) {
 // Copy CNAME
 fs.copyFileSync(path.join(ROOT, 'CNAME'), path.join(PUBLIC, 'CNAME'));
 
+// Build /dashboard page
+const dashSrc = path.join(TEMPLATES, 'dashboard.html');
+if (fs.existsSync(dashSrc)) {
+  const dashDest = path.join(PUBLIC, 'dashboard', 'index.html');
+  fs.mkdirSync(path.dirname(dashDest), { recursive: true });
+  fs.copyFileSync(dashSrc, dashDest);
+  console.log('Building dashboard → public/dashboard/index.html');
+  pageCount++;
+}
+
+// Build /intake page (standalone client intake form)
+const intakeSrc = path.join(TEMPLATES, 'intake.html');
+if (fs.existsSync(intakeSrc)) {
+  const intakeDest = path.join(PUBLIC, 'intake', 'index.html');
+  fs.mkdirSync(path.dirname(intakeDest), { recursive: true });
+  fs.copyFileSync(intakeSrc, intakeDest);
+  console.log('Building intake page → public/intake/index.html');
+  pageCount++;
+}
+
 // Copy admin dashboard
 const adminSrc = path.join(ROOT, 'admin');
 const adminDest = path.join(PUBLIC, '_admin');

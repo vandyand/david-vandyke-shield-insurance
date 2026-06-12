@@ -128,7 +128,7 @@
     body[data-variant="b"] #contact-embed-wrapper { display: none; }
   </style>
 </head>
-<body class="font-sans text-gray-600 leading-relaxed" data-variant="{{variant_id}}" data-niche="{{niche_slug}}">
+<body class="font-sans text-gray-600 leading-relaxed pb-16 md:pb-0" data-variant="{{variant_id}}" data-niche="{{niche_slug}}">
   {{section:header}}
 
   <!-- Main Content -->
@@ -236,6 +236,61 @@ if (servicesBtn) {
       }
     }
   });
+  </script>
+
+  <!-- Variant-aware hero CTA: point to early embed on variant B -->
+  <script>
+  (function() {
+    if (document.body.dataset.variant === 'b') {
+      document.querySelectorAll('a[href="#contact"]').forEach(function(a) {
+        // Only rewrite the hero CTA, not nav links
+        if (a.closest('#home')) a.href = '#contact-early';
+      });
+    }
+  })();
+  </script>
+
+  <!-- Sticky mobile CTA bar -->
+  <div id="sticky-cta" class="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-navy border-t-2 border-gold shadow-2xl transition-transform duration-300 translate-y-full">
+    <div class="flex items-stretch">
+      <a id="sticky-book-btn" href="/intake" class="flex-1 flex items-center justify-center gap-2 bg-gold hover:bg-gold-dark text-navy font-bold text-base py-4 px-4 transition-colors">
+        <i data-lucide="file-text" class="w-5 h-5 flex-shrink-0" aria-hidden="true"></i>
+        Get My Free Quote
+      </a>
+      <a href="tel:6166164884" class="flex items-center justify-center gap-2 bg-navy hover:bg-navy-light text-white font-bold text-base py-4 px-5 border-l border-navy-light transition-colors">
+        <i data-lucide="phone" class="w-5 h-5" aria-hidden="true"></i>
+      </a>
+    </div>
+  </div>
+  <script>
+  (function() {
+    var bar = document.getElementById('sticky-cta');
+    var bookBtn = document.getElementById('sticky-book-btn');
+
+    // Point book button to correct section based on variant
+    if (document.body.dataset.variant === 'b') {
+      bookBtn.href = '#contact-early';
+    } else {
+      bookBtn.href = '#contact';
+    }
+
+    // Slide up after 2 seconds
+    setTimeout(function() {
+      bar.classList.remove('translate-y-full');
+      lucide.createIcons();
+    }, 2000);
+
+    // Hide when Calendly is visible on screen (user reached it)
+    var calendlySection = document.getElementById(
+      document.body.dataset.variant === 'b' ? 'contact-early' : 'contact'
+    );
+    if (calendlySection) {
+      var obs = new IntersectionObserver(function(entries) {
+        bar.classList.toggle('translate-y-full', entries[0].isIntersecting);
+      }, { threshold: 0.2 });
+      obs.observe(calendlySection);
+    }
+  })();
   </script>
 
   <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "1eb649f75ee44207bde8d74bd95b2396"}'></script><!-- End Cloudflare Web Analytics -->

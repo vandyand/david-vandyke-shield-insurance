@@ -6,7 +6,7 @@
           <!-- Photo -->
           <div class="flex-shrink-0">
             <img src="{{image_base}}/david-headshot.png"
-              alt="David VanDyke, your local Michigan insurance agent"
+              alt="David VanDyke, your local {{about_state}} insurance agent"
               class="w-36 h-36 md:w-56 md:h-56 lg:w-64 lg:h-64 object-cover rounded-full border-4 border-gold shadow-xl ring-4 ring-gold/20">
           </div>
           <!-- Copy -->
@@ -23,14 +23,19 @@
         <!-- Hero Actions -->
         <div class="flex flex-col items-center gap-4 text-center">
           <div class="flex flex-col md:flex-row items-center gap-4">
-            <a href="#contact"
+            <a href="/intake"
               class="inline-flex items-center justify-center bg-gold hover:bg-gold-dark text-navy font-bold text-lg md:text-xl px-8 py-4 rounded-lg min-h-[60px] min-w-[220px] shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">
-              {{hero_cta_text}}
+              Get My Free Quote →
             </a>
             <a href="tel:6166164884"
               class="inline-flex items-center justify-center gap-3 bg-navy hover:bg-navy-light text-white font-bold text-lg md:text-xl px-8 py-4 rounded-lg min-h-[60px] min-w-[220px] shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">
               <i data-lucide="phone" class="w-6 h-6" aria-hidden="true"></i>
               <span>616-616-4884</span>
+            </a>
+            <a href="#contact"
+              class="inline-flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-navy font-bold text-lg md:text-xl px-8 py-4 rounded-lg min-h-[60px] min-w-[220px] border-2 border-gray-200 hover:border-gold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">
+              <i data-lucide="calendar" class="w-6 h-6" aria-hidden="true"></i>
+              <span>Book a Call</span>
             </a>
           </div>
           <p class="text-gray-600">

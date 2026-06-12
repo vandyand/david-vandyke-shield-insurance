@@ -1,7 +1,12 @@
 import { rewrite } from '@vercel/functions';
 import { get } from '@vercel/edge-config';
 
-const ALL_NICHES = ['landscaper', 'contractor', 'restaurant', 'home-business'];
+const ALL_NICHES = ['landscaper', 'contractor', 'restaurant', 'home-business', 'general-indiana'];
+
+// Map URL paths to niche slugs (when they differ)
+const PATH_TO_SLUG = {
+  'indiana': 'general-indiana',
+};
 
 // Default: all niches have both variants active
 const DEFAULT_CONFIG = {
@@ -10,6 +15,7 @@ const DEFAULT_CONFIG = {
   'contractor': ['a', 'b'],
   'restaurant': ['a', 'b'],
   'home-business': ['a', 'b'],
+  'general-indiana': ['a', 'b'],
 };
 
 export default async function middleware(request) {
@@ -17,12 +23,19 @@ export default async function middleware(request) {
   const { pathname } = url;
 
   // Only handle known niche paths and homepage
-  const nicheSlug = ALL_NICHES.find(n => pathname === `/${n}` || pathname === `/${n}/`);
-  const isHome = pathname === '/' || pathname === '/index.html';
+  // Check direct niche slug paths and aliased paths (e.g. /indiana → general-indiana)
+  const pathSegment = pathname.replace(/^\/|\/$/g, '');
+  let slug;
 
-  if (!nicheSlug && !isHome) return;
-
-  const slug = nicheSlug || 'general';
+  if (pathname === '/' || pathname === '/index.html') {
+    slug = 'general';
+  } else if (ALL_NICHES.includes(pathSegment)) {
+    slug = pathSegment;
+  } else if (PATH_TO_SLUG[pathSegment]) {
+    slug = PATH_TO_SLUG[pathSegment];
+  } else {
+    return;
+  }
 
   // Read active variants from Edge Config (with fallback)
   let activeVariants;
@@ -63,7 +76,7 @@ export default async function middleware(request) {
 }
 
 export const config = {
-  matcher: ['/', '/index.html', '/landscaper', '/landscaper/', '/contractor', '/contractor/', '/restaurant', '/restaurant/', '/home-business', '/home-business/'],
+  matcher: ['/', '/index.html', '/landscaper', '/landscaper/', '/contractor', '/contractor/', '/restaurant', '/restaurant/', '/home-business', '/home-business/', '/indiana', '/indiana/'],
 };
 
 function parseCookies(cookieHeader) {

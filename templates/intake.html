@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client Intake — Shield Insurance Agency</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z' fill='%23ffffff' stroke='%232c5282' stroke-width='2'/%3E%3Cline x1='12' y1='2' x2='12' y2='22' stroke='%232c5282' stroke-width='2'/%3E%3Cline x1='4' y1='10' x2='20' y2='10' stroke='%232c5282' stroke-width='2'/%3E%3C/svg%3E">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f0f4fa;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ── */
+/* Matches the main site header (templates/sections/header.html): navy bar, sticky,
+   centered max-width container, brand link with gold hover. Nav links are intentionally
+   omitted on the intake page so users stay focused on completing the form. */
+.top-bar {
+  background: #1a365d;
+  padding: 16px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  flex-shrink: 0;
+}
+@media (min-width: 1024px) { .top-bar { padding: 16px 32px; } }
+.top-bar-inner {
+  max-width: 1152px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.top-bar .brand {
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+.top-bar .brand:hover { color: #f6e05e; }
+@media (min-width: 768px) { .top-bar .brand { font-size: 20px; } }
+
+.progress-track {
+  flex: 1;
+  max-width: 220px;
+  height: 5px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 3px;
+  margin: 0 20px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: #4ade80;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+  width: 0%;
+}
+.progress-text { color: rgba(255,255,255,0.6); font-size: 12px; white-space: nowrap; }
+
+/* ── Main layout ── */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Top-align on desktop so the form sits under the header. Mobile keeps flex-end
+     for the iMessage-style chat feel (viewport ~= content height there anyway). */
+  justify-content: flex-start;
+  padding: 32px 16px 32px;
+  max-width: 680px;
+  margin: 0 auto;
+  width: 100%;
+}
+@media (max-width: 640px) {
+  .main { justify-content: flex-end; padding-top: 20px; }
+}
+
+/* ── Chat history ── */
+.chat-history {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+  max-height: calc(100vh - 280px);
+  overflow-y: auto;
+  padding-bottom: 4px;
+}
+.chat-history::-webkit-scrollbar { width: 4px; }
+.chat-history::-webkit-scrollbar-thumb { background: #c0ccd8; border-radius: 2px; }
+
+/* ── Bubbles ── */
+.bubble-row { display: flex; align-items: flex-end; gap: 10px; }
+.bubble-row.agent { justify-content: flex-start; }
+.bubble-row.user  { justify-content: flex-end; }
+
+.avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: #1a365d;
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.bubble {
+  max-width: 75%;
+  padding: 12px 16px;
+  border-radius: 18px;
+  font-size: 15px;
+  line-height: 1.5;
+  animation: popIn 0.25s ease;
+}
+@keyframes popIn {
+  from { transform: scale(0.92); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+
+.agent .bubble {
+  background: white;
+  color: #1a2332;
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.user .bubble {
+  background: #1a365d;
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+/* ── Current question card ── */
+.question-card {
+  width: 100%;
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  animation: slideUp 0.3s ease;
+}
+@keyframes slideUp {
+  from { transform: translateY(16px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.q-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #9aa5b4;
+  margin-bottom: 8px;
+}
+.q-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a2332;
+  margin-bottom: 4px;
+  line-height: 1.35;
+}
+.q-hint {
+  font-size: 13px;
+  color: #9aa5b4;
+  margin-bottom: 18px;
+  line-height: 1.4;
+}
+
+/* ── Input styles ── */
+.q-input {
+  width: 100%;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 13px 16px;
+  font-size: 16px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+  background: #fafbfc;
+}
+.q-input:focus { border-color: #1a365d; background: white; }
+.q-input.error { border-color: #e53e3e; }
+
+/* multi-line */
+.q-textarea {
+  width: 100%;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 13px 16px;
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+  resize: none;
+  min-height: 100px;
+  transition: border-color 0.15s;
+  background: #fafbfc;
+}
+.q-textarea:focus { border-color: #1a365d; background: white; }
+
+/* date */
+.q-date {
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 13px 16px;
+  font-size: 16px;
+  font-family: inherit;
+  outline: none;
+  background: #fafbfc;
+  transition: border-color 0.15s;
+  width: 100%;
+}
+.q-date:focus { border-color: #1a365d; background: white; }
+
+/* input pair (two side by side) */
+.input-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.input-pair .q-input { width: 100%; }
+
+/* ── Button choices ── */
+.choice-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+.choice-btn {
+  padding: 11px 20px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  background: white;
+  font-size: 15px;
+  font-weight: 600;
+  color: #4a5568;
+  cursor: pointer;
+  transition: all 0.15s;
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+}
+.choice-btn:hover { border-color: #1a365d; color: #1a365d; background: #f0f5ff; }
+.choice-btn.selected { border-color: #1a365d; background: #1a365d; color: white; }
+
+/* yes/no row */
+.yn-row { display: flex; gap: 10px; }
+.yn-btn {
+  flex: 1;
+  padding: 14px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: white;
+  text-align: center;
+}
+.yn-btn.yes:hover, .yn-btn.yes.selected { border-color: #1a7a4a; background: #1a7a4a; color: white; }
+.yn-btn.no:hover,  .yn-btn.no.selected  { border-color: #e53e3e; background: #e53e3e; color: white; }
+
+/* ── Repeatable rows (VINs, license #s) ── */
+.repeat-inputs { display: flex; flex-direction: column; gap: 8px; }
+.repeat-row { display: flex; gap: 8px; align-items: center; }
+.repeat-row .q-input { flex: 1; }
+.remove-row-btn {
+  width: 32px; height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: #fee2e2;
+  color: #e53e3e;
+  font-size: 18px;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.1s;
+}
+.remove-row-btn:hover { background: #fca5a5; }
+.add-row-btn {
+  border: 2px dashed #c0ccd8;
+  border-radius: 10px;
+  padding: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7a8d;
+  background: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  transition: all 0.15s;
+  margin-top: 4px;
+}
+.add-row-btn:hover { border-color: #1a365d; color: #1a365d; background: #f0f5ff; }
+
+/* labeled repeat (for drivers: name + license) */
+.labeled-repeat { display: flex; flex-direction: column; gap: 12px; }
+.labeled-block {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px;
+}
+.labeled-block-title {
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.4px; color: #6b7a8d; margin-bottom: 10px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.labeled-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.labeled-grid .q-input { font-size: 14px; padding: 10px 12px; }
+
+/* ── Navigation ── */
+.nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 12px;
+}
+.back-btn {
+  padding: 12px 20px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  background: white;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7a8d;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.back-btn:hover { border-color: #9aa5b4; color: #4a5568; }
+.next-btn {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #1a365d, #2e5f8a);
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+  box-shadow: 0 3px 12px rgba(26,53,96,0.25);
+}
+.next-btn:hover { transform: translateY(-1px); box-shadow: 0 5px 16px rgba(26,53,96,0.3); }
+.next-btn:active { transform: translateY(0); }
+
+/* ── Complete screen ── */
+.complete-card {
+  width: 100%;
+  background: white;
+  border-radius: 20px;
+  padding: 36px 28px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  text-align: center;
+  display: none;
+}
+.complete-card .icon { font-size: 52px; margin-bottom: 16px; }
+.complete-card h2 { font-size: 24px; font-weight: 800; color: #1a2332; margin-bottom: 8px; }
+.complete-card p  { color: #6b7a8d; font-size: 15px; line-height: 1.6; max-width: 380px; margin: 0 auto 24px; }
+.send-btn {
+  background: linear-gradient(135deg, #1a365d, #2e5f8a);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 36px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 3px 12px rgba(26,53,96,0.25);
+  transition: all 0.15s;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.send-btn:hover { transform: translateY(-1px); }
+.send-note { font-size: 12px; color: #9aa5b4; }
+
+/* ── File upload ── */
+.upload-section {
+  background: #f8fafc;
+  border: 2px dashed #c0ccd8;
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 18px;
+  text-align: left;
+}
+.upload-section h3 { font-size: 14px; font-weight: 700; color: #1a2332; margin-bottom: 4px; }
+.upload-section p  { font-size: 13px; color: #6b7a8d; margin-bottom: 12px; line-height: 1.5; }
+.file-pick-btn {
+  display: inline-block;
+  padding: 9px 18px;
+  background: white;
+  border: 2px solid #1a365d;
+  border-radius: 10px;
+  color: #1a365d;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.file-pick-btn:hover { background: #1a365d; color: white; }
+#file-input { display: none; }
+#file-list { margin-top: 10px; display: flex; flex-direction: column; gap: 4px; }
+.file-chip {
+  font-size: 12px;
+  color: #1a7a4a;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 6px;
+  padding: 4px 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.upload-alt { font-size: 12px; color: #9aa5b4; margin-top: 10px; }
+.upload-alt a { color: #1a365d; }
+
+/* ── Error ── */
+.error-msg { color: #e53e3e; font-size: 13px; margin-top: 8px; }
+
+@media (max-width: 500px) {
+  .input-pair { grid-template-columns: 1fr; }
+  .labeled-grid { grid-template-columns: 1fr; }
+  .q-text { font-size: 16px; }
+  .bubble { font-size: 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <a href="/" class="brand">David VanDyke Insurance</a>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="progress-text" id="progress-text">Step 1</div>
+  </div>
+</div>
+
+<div class="main" id="main-area">
+  <div class="chat-history" id="chat-history"></div>
+
+  <div class="question-card" id="question-card">
+    <div class="q-label" id="q-label">Getting started</div>
+    <div class="q-text"  id="q-text">Loading...</div>
+    <div class="q-hint"  id="q-hint"></div>
+    <div id="q-input-area"></div>
+    <div class="error-msg" id="error-msg"></div>
+    <div class="nav-row">
+      <button class="back-btn" id="back-btn" onclick="goBack()" style="display:none;">← Back</button>
+      <button class="next-btn" id="next-btn" onclick="goNext()">Continue →</button>
+    </div>
+  </div>
+
+  <div class="complete-card" id="complete-card">
+    <div class="icon">🎉</div>
+    <h2>All done!</h2>
+    <p>Thanks for filling this out! Optionally attach your current insurance documents below, then hit Submit.</p>
+
+    <div class="upload-section">
+      <h3>📎 Attach current policy documents (optional)</h3>
+      <p>Select your declaration page(s) — PDFs, photos, or screenshots all work. Up to 15 MB per file, ~22 MB total.</p>
+      <label class="file-pick-btn" for="file-input">Select Files</label>
+      <input type="file" id="file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.gif,.heic,.webp" onchange="handleFiles(this.files)">
+      <div id="file-list"></div>
+      <div class="upload-alt" id="file-size-info"></div>
+    </div>
+
+    <button class="send-btn" id="send-btn" onclick="submitForm()">📨 Submit to David</button>
+    <p class="send-note" id="send-note">Your answers and any attached documents will be emailed directly to David.</p>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+//  QUESTION DEFINITIONS
+// ═══════════════════════════════════════════
+
+// Submissions are sent server-side via POST /api/intake-submit (see submitForm()).
+// No client-side email address is exposed to scrapers.
+
+const QUESTIONS = [
+  // ── Welcome / policy type ──
+  {
+    id: 'policy_type',
+    section: 'Getting Started',
+    text: 'Hi! What type of insurance are we getting quotes for today?',
+    hint: "Your answers will be used to prepare your personalized quote.",
+    type: 'choice',
+    options: ['Auto only', 'Home only', 'Both Auto & Home', 'Renters only', 'Renters & Auto'],
+    required: true,
+  },
+
+  // ── Applicant ──
+  {
+    id: 'applicant_people',
+    section: 'About You',
+    text: "Who will be on the policy?",
+    hint: 'Add everyone who needs to be listed — you can add a spouse, partner, or co-applicant.',
+    type: 'people',
+    required: true,
+  },
+  {
+    id: 'occupation',
+    section: 'About You',
+    text: "What are your occupation(s)?",
+    hint: 'Include everyone on the policy.',
+    type: 'textarea',
+    placeholder: 'e.g.  Jane — Registered Nurse\n      John — High School Teacher',
+    required: false,
+  },
+  {
+    id: 'current_address',
+    section: 'About You',
+    text: "What is your current address?",
+    type: 'textarea',
+    placeholder: 'Street, City, State, ZIP',
+    required: true,
+  },
+  {
+    id: 'lived_3yrs',
+    section: 'About You',
+    text: "Have you lived at this address for the past 3 years?",
+    type: 'yesno',
+    required: true,
+  },
+  {
+    id: 'prev_addresses',
+    section: 'About You',
+    text: "What were your previous address(es) over the last 3 years?",
+    hint: 'List each address you lived at since ' + (new Date().getFullYear() - 3) + '.',
+    type: 'textarea',
+    placeholder: 'e.g.  123 Oak St, Lansing MI 48906 (2022–2023)\n      456 Elm Ave, Detroit MI 48201 (2021–2022)',
+    required: false,
+    when: (a) => a.lived_3yrs === 'No',
+  },
+  {
+    id: 'children',
+    section: 'About You',
+    text: "Do any children live in the home?",
+    type: 'yesno',
+    required: true,
+  },
+  {
+    id: 'children_details',
+    section: 'About You',
+    text: "What are their names and ages?",
+    type: 'textarea',
+    placeholder: 'e.g.  Emma (16), Tyler (12), Sophia (8)',
+    required: false,
+    when: (a) => a.children === 'Yes',
+  },
+
+  // ── Home questions ──
+  {
+    id: 'home_address_same',
+    section: 'Home Information',
+    text: "Is the home being insured at the same address you just gave me?",
+    type: 'yesno',
+    required: true,
+    when: (a) => isHome(a),
+  },
+  {
+    id: 'home_address',
+    section: 'Home Information',
+    text: "What is the address of the home being insured?",
+    type: 'textarea',
+    placeholder: 'Street, City, State, ZIP',
+    required: true,
+    when: (a) => isHome(a) && a.home_address_same === 'No',
+  },
+  {
+    id: 'has_home_insurance',
+    section: 'Home Information',
+    text: "Do you currently have homeowners insurance?",
+    type: 'yesno',
+    required: true,
+    when: (a) => isHome(a),
+  },
+  {
+    id: 'home_insurance_info',
+    section: 'Home Information',
+    text: "Which company is your policy with, and how long have you had it?",
+    type: 'textarea',
+    placeholder: 'e.g.  State Farm — about 6 years\n      Allstate — since 2019',
+    required: false,
+    when: (a) => isHome(a) && a.has_home_insurance === 'Yes',
+  },
+  {
+    id: 'home_deductible',
+    section: 'Home Information',
+    text: "What is your current homeowners deductible?",
+    hint: "Check your current policy if you're not sure. Common amounts are $500, $1,000, or $2,500.",
+    type: 'text',
+    placeholder: 'e.g.  $1,000  /  Not sure',
+    required: false,
+    when: (a) => isHome(a) && a.has_home_insurance === 'Yes',
+  },
+  {
+    id: 'home_policy_expires',
+    section: 'Home Information',
+    text: "When does your current homeowners policy expire?",
+    type: 'text',
+    placeholder: 'e.g.  June 15, 2026',
+    required: false,
+    when: (a) => isHome(a) && a.has_home_insurance === 'Yes',
+  },
+  {
+    id: 'new_purchase',
+    section: 'Home Information',
+    text: "Is this a new home purchase?",
+    type: 'yesno',
+    required: true,
+    when: (a) => isHome(a),
+  },
+  {
+    id: 'closing_date',
+    section: 'Home Information',
+    text: "What is your estimated closing date?",
+    type: 'date',
+    required: false,
+    when: (a) => isHome(a) && a.new_purchase === 'Yes',
+  },
+  {
+    id: 'has_mortgage',
+    section: 'Home Information',
+    text: (a) => a.new_purchase === 'Yes' ? "Will there be a mortgage on the home?" : "Is there a mortgage on the home?",
+    type: 'yesno',
+    required: true,
+    when: (a) => isHome(a),
+  },
+  {
+    id: 'mortgage_info',
+    section: 'Home Information',
+    text: "What's the name of your mortgage lender?",
+    hint: "Also include your loan number if you have it handy.",
+    type: 'textarea',
+    placeholder: 'e.g.  Rocket Mortgage, loan #12345678',
+    required: false,
+    when: (a) => isHome(a) && a.has_mortgage === 'Yes',
+  },
+  {
+    id: 'roof_age',
+    section: 'Home Information',
+    text: "How old is the roof, or when was it last replaced?",
+    type: 'text',
+    placeholder: 'e.g.  Replaced in 2019  /  About 12 years old',
+    required: false,
+    when: (a) => isHome(a),
+  },
+  {
+    id: 'furnace_age',
+    section: 'Home Information',
+    text: "How old is the furnace?",
+    hint: "Approximate age is fine — even a rough estimate helps.",
+    type: 'text',
+    placeholder: 'e.g.  About 10 years old  /  Replaced in 2018  /  Not sure',
+    required: false,
+    when: (a) => isHome(a),
+  },
+  {
+    id: 'systems_age',
+    section: 'Home Information',
+    text: "Do you know the age of the electrical and plumbing systems?",
+    hint: "Not everyone knows this — just share whatever you have.",
+    type: 'textarea',
+    placeholder: 'e.g.  Electrical updated in 2010, plumbing original to the house (1972)\n      Not sure',
+    required: false,
+    when: (a) => isHome(a),
+  },
+  {
+    id: 'has_dog',
+    section: 'Home Information',
+    text: "Do you own a dog?",
+    type: 'yesno',
+    required: true,
+    when: (a) => isHome(a),
+  },
+  {
+    id: 'dog_breed',
+    section: 'Home Information',
+    text: "What breed?",
+    hint: "Some breeds affect home insurance rates.",
+    type: 'text',
+    placeholder: 'e.g.  Golden Retriever, German Shepherd',
+    required: false,
+    when: (a) => isHome(a) && a.has_dog === 'Yes',
+  },
+  {
+    id: 'pool_trampoline',
+    section: 'Home Information',
+    text: "Is there a swimming pool, hot tub, or trampoline on the property?",
+    type: 'choice',
+    options: ['None of these', 'Pool', 'Hot tub', 'Trampoline', 'Multiple'],
+    required: true,
+    when: (a) => isHome(a),
+  },
+
+  // ── Renters questions ──
+  {
+    id: 'renters_address_same',
+    section: 'Renters Information',
+    text: "Is the apartment you want to insure at the same address you gave me?",
+    type: 'yesno',
+    required: true,
+    when: (a) => isRenters(a),
+  },
+  {
+    id: 'renters_address',
+    section: 'Renters Information',
+    text: "What's the address of the apartment you want to insure?",
+    hint: 'Include your unit or apartment number.',
+    type: 'textarea',
+    placeholder: 'Street + Unit #, City, State, ZIP',
+    required: true,
+    when: (a) => isRenters(a) && a.renters_address_same === 'No',
+  },
+  {
+    id: 'renters_pp_limit',
+    section: 'Renters Information',
+    text: "How much personal property coverage would you like? (the value of your belongings)",
+    hint: "Roughly what it would cost to replace your furniture, electronics, clothing, etc.",
+    type: 'choice',
+    options: ['$20,000', '$40,000', '$60,000', '$100,000'],
+    required: true,
+    when: (a) => isRenters(a),
+  },
+  {
+    id: 'renters_start_date',
+    section: 'Renters Information',
+    text: "When would you like the coverage to start?",
+    hint: "Usually your lease start date.",
+    type: 'date',
+    required: false,
+    when: (a) => isRenters(a),
+  },
+  {
+    id: 'renters_sprinkler',
+    section: 'Renters Information',
+    text: "Does the unit or building have a sprinkler system?",
+    type: 'choice',
+    options: ['Yes', 'No', 'Not sure'],
+    required: true,
+    when: (a) => isRenters(a),
+  },
+  {
+    id: 'renters_garage',
+    section: 'Renters Information',
+    text: "Does the rental include a garage or carport?",
+    type: 'choice',
+    options: ['No', 'Yes — garage', 'Yes — carport'],
+    required: true,
+    when: (a) => isRenters(a),
+  },
+  {
+    id: 'renters_pets',
+    section: 'Renters Information',
+    text: "Do you have any pets?",
+    type: 'yesno',
+    required: true,
+    when: (a) => isRenters(a),
+  },
+  {
+    id: 'renters_pet_type',
+    section: 'Renters Information',
+    text: "What kind of pet(s) do you have?",
+    type: 'text',
+    placeholder: 'e.g.  Dog — Labrador, Cat',
+    required: false,
+    when: (a) => isRenters(a) && a.renters_pets === 'Yes',
+  },
+  {
+    id: 'renters_prior',
+    section: 'Renters Information',
+    text: "Have you had renters or homeowners insurance before?",
+    type: 'yesno',
+    required: true,
+    when: (a) => isRenters(a),
+  },
+  {
+    id: 'renters_prior_info',
+    section: 'Renters Information',
+    text: "Which company, and how long have you had it?",
+    type: 'textarea',
+    placeholder: 'e.g.  State Farm — about 3 years',
+    required: false,
+    when: (a) => isRenters(a) && a.renters_prior === 'Yes',
+  },
+
+  // ── Auto questions ──
+  {
+    id: 'drivers',
+    section: 'Auto Information',
+    text: "Please list all licensed drivers in the household.",
+    hint: "Include their full name and driver's license number.",
+    type: 'drivers',
+    required: true,
+    when: (a) => isAuto(a),
+  },
+  {
+    id: 'vehicles',
+    section: 'Auto Information',
+    text: "What vehicles need to be on the policy?",
+    hint: "The VIN is required for each vehicle — EZLynx pulls the year, make, and model automatically from it. VINs are found on your dashboard (driver's side) or on your registration.",
+    type: 'vehicles',
+    required: true,
+    when: (a) => isAuto(a),
+  },
+  {
+    id: 'coverage_pref',
+    section: 'Auto Information',
+    text: "Are you looking for liability-only coverage or full coverage?",
+    hint: "Liability only (PLPD) covers damage you cause to others. Full coverage also covers your own vehicle.",
+    type: 'choice',
+    options: ['Liability only (PLPD)', 'Full coverage', 'Not sure — please advise'],
+    required: true,
+    when: (a) => isAuto(a),
+  },
+  {
+    id: 'current_deductibles',
+    section: 'Auto Information',
+    text: "What are your current deductible amounts?",
+    hint: "Comprehensive and collision deductibles — check your current policy if unsure.",
+    type: 'text',
+    placeholder: 'e.g.  $500 comp / $1,000 collision',
+    required: false,
+    when: (a) => isAuto(a) && a.coverage_pref === 'Full coverage',
+  },
+  {
+    id: 'has_auto_insurance',
+    section: 'Auto Information',
+    text: "Do you currently have auto insurance?",
+    type: 'yesno',
+    required: true,
+    when: (a) => isAuto(a),
+  },
+  {
+    id: 'current_auto_carrier',
+    section: 'Auto Information',
+    text: "Which company is your policy with, and how long have you been with them?",
+    type: 'textarea',
+    placeholder: 'e.g.  State Farm — about 4 years\n      Progressive — since 2020',
+    required: false,
+    when: (a) => isAuto(a) && a.has_auto_insurance === 'Yes',
+  },
+  {
+    id: 'auto_policy_expires',
+    section: 'Auto Information',
+    text: "When does your current auto policy expire?",
+    type: 'text',
+    placeholder: 'e.g.  August 1, 2026',
+    required: false,
+    when: (a) => isAuto(a) && a.has_auto_insurance === 'Yes',
+  },
+  {
+    id: 'vehicle_loans',
+    section: 'Auto Information',
+    text: "Is there a loan or lease on any of the vehicles?",
+    type: 'yesno',
+    required: true,
+    when: (a) => isAuto(a),
+  },
+  {
+    id: 'loan_details',
+    section: 'Auto Information',
+    text: "Which vehicles have a loan, and who is the lender?",
+    type: 'textarea',
+    placeholder: 'e.g.  2022 Honda Accord — Chase Auto Finance\n      2020 Ford F-150 — Ford Motor Credit',
+    required: false,
+    when: (a) => isAuto(a) && a.vehicle_loans === 'Yes',
+  },
+  {
+    id: 'rideshare',
+    section: 'Auto Information',
+    text: "Do you use any of your vehicles for Uber, Lyft, DoorDash, or any other delivery or rideshare service?",
+    type: 'yesno',
+    required: true,
+    when: (a) => isAuto(a),
+  },
+  {
+    id: 'health_insurance',
+    section: 'Auto Information',
+    text: "Do you have health insurance?",
+    hint: "This can affect your auto coverage options in Michigan.",
+    type: 'yesno',
+    required: true,
+    when: (a) => isAuto(a),
+  },
+  {
+    id: 'health_carrier',
+    section: 'Auto Information',
+    text: "Which company provides your health insurance?",
+    type: 'text',
+    placeholder: 'e.g.  Blue Cross Blue Shield, Priority Health, Aetna',
+    required: false,
+    when: (a) => isAuto(a) && a.health_insurance === 'Yes',
+  },
+
+  // ── Wrap up ──
+  {
+    id: 'anything_else',
+    section: 'Almost Done',
+    text: "Is there anything else we should know?",
+    hint: "Questions about coverage, special circumstances, anything at all.",
+    type: 'textarea',
+    placeholder: "Optional — leave blank if nothing else comes to mind.",
+    required: false,
+  },
+];
+
+// ═══════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════
+
+function isAuto(a) { return a.policy_type === 'Auto only' || a.policy_type === 'Both Auto & Home' || a.policy_type === 'Renters & Auto'; }
+function isHome(a) { return a.policy_type === 'Home only' || a.policy_type === 'Both Auto & Home'; }
+function isRenters(a) { return a.policy_type === 'Renters only' || a.policy_type === 'Renters & Auto'; }
+
+let answers = {};
+let history = []; // [{qId, displayText, answerText}]
+let currentIdx = 0;
+
+function getVisibleQuestions() {
+  return QUESTIONS.filter(q => !q.when || q.when(answers));
+}
+
+function getCurrentQuestion() {
+  const visible = getVisibleQuestions();
+  return visible[currentIdx] || null;
+}
+
+// ═══════════════════════════════════════════
+//  RENDER
+// ═══════════════════════════════════════════
+
+function render() {
+  const visible = getVisibleQuestions();
+  const q = visible[currentIdx];
+
+  if (!q) { showComplete(); return; }
+
+  // Progress
+  const pct = Math.round(currentIdx / visible.length * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = `${currentIdx + 1} / ${visible.length}`;
+
+  // Back button
+  document.getElementById('back-btn').style.display = currentIdx > 0 ? 'inline-block' : 'none';
+
+  // Labels
+  document.getElementById('q-label').textContent = q.section || '';
+  document.getElementById('q-text').textContent = typeof q.text === 'function' ? q.text(answers) : q.text;
+  document.getElementById('q-hint').textContent = q.hint || '';
+  document.getElementById('q-hint').style.display = q.hint ? 'block' : 'none';
+  document.getElementById('error-msg').textContent = '';
+
+  // Next button label
+  const isLast = currentIdx === visible.length - 1;
+  document.getElementById('next-btn').textContent = isLast ? 'Finish ✓' : 'Continue →';
+
+  // Input area
+  const area = document.getElementById('q-input-area');
+  area.innerHTML = '';
+
+  const existing = answers[q.id];
+
+  switch (q.type) {
+    case 'choice':
+      area.innerHTML = `<div class="choice-grid">${q.options.map(o =>
+        `<button class="choice-btn${existing === o ? ' selected' : ''}" onclick="selectChoice(this,'${q.id}','${o}')">${o}</button>`
+      ).join('')}</div>`;
+      break;
+
+    case 'yesno':
+      area.innerHTML = `<div class="yn-row">
+        <button class="yn-btn yes${existing === 'Yes' ? ' selected' : ''}" onclick="selectYN(this,'${q.id}','Yes')">Yes</button>
+        <button class="yn-btn no${existing === 'No' ? ' selected' : ''}"  onclick="selectYN(this,'${q.id}','No')">No</button>
+      </div>`;
+      break;
+
+    case 'text':
+      area.innerHTML = `<input class="q-input" id="q-main-input" type="text" placeholder="${q.placeholder || ''}" value="${existing || ''}">`;
+      setTimeout(() => { const el = document.getElementById('q-main-input'); if (el) el.focus(); }, 50);
+      break;
+
+    case 'date':
+      area.innerHTML = `<input class="q-date" id="q-main-input" type="date" value="${existing || ''}">`;
+      break;
+
+    case 'textarea':
+      area.innerHTML = `<textarea class="q-textarea" id="q-main-input" placeholder="${q.placeholder || ''}">${existing || ''}</textarea>`;
+      setTimeout(() => { const el = document.getElementById('q-main-input'); if (el) el.focus(); }, 50);
+      break;
+
+    case 'pair': {
+      const vals = existing ? existing.split('||') : ['', ''];
+      area.innerHTML = `<div class="input-pair">
+        ${q.fields.map((f, i) => `<input class="q-input pair-input" data-idx="${i}" type="text" placeholder="${f.placeholder}" value="${vals[i] || ''}">`).join('')}
+      </div>`;
+      setTimeout(() => { const el = document.querySelector('.pair-input'); if (el) el.focus(); }, 50);
+      break;
+    }
+
+    case 'people':
+      renderPeople(area, existing);
+      break;
+
+    case 'vehicles':
+      renderVehicles(area, existing);
+      break;
+
+    case 'drivers':
+      renderDrivers(area, existing);
+      break;
+  }
+
+  // Re-animate card
+  const card = document.getElementById('question-card');
+  card.style.animation = 'none';
+  card.offsetHeight;
+  card.style.animation = '';
+}
+
+// ── People repeater (policyholders) ──
+function renderPeople(area, existing) {
+  let people = existing ? JSON.parse(existing) : [{ first:'', last:'', dob:'' }];
+
+  function draw() {
+    area.innerHTML = `<div class="labeled-repeat" id="people-list"></div>
+      <button class="add-row-btn" onclick="addPerson()">+ Add Another Person</button>`;
+    const list = area.querySelector('#people-list');
+    people.forEach((p, i) => {
+      const block = document.createElement('div');
+      block.className = 'labeled-block';
+      block.innerHTML = `
+        <div class="labeled-block-title">Person ${i + 1}
+          ${i > 0 ? `<button class="remove-row-btn" onclick="removePerson(${i})">×</button>` : ''}
+        </div>
+        <div class="labeled-grid">
+          <input class="q-input" placeholder="First name" value="${p.first}" oninput="updatePerson(${i},'first',this.value)">
+          <input class="q-input" placeholder="Last name"  value="${p.last}"  oninput="updatePerson(${i},'last',this.value)">
+        </div>
+        <div style="margin-top:8px;">
+          <input class="q-input" type="date" style="width:100%;" value="${p.dob}" oninput="updatePerson(${i},'dob',this.value)" title="Date of birth">
+          <div style="font-size:11px;color:#9aa5b4;margin-top:4px;">Date of birth</div>
+        </div>`;
+      list.appendChild(block);
+    });
+  }
+
+  draw();
+
+  window.addPerson    = () => { people.push({ first:'', last:'', dob:'' }); draw(); };
+  window.removePerson = (i) => { people.splice(i, 1); draw(); };
+  window.updatePerson = (i, key, val) => { people[i][key] = val; };
+  window._getPeople   = () => people;
+}
+
+// ── Vehicle repeater ──
+function renderVehicles(area, existing) {
+  let vehicles = existing ? JSON.parse(existing) : [{ year:'', make:'', model:'', vin:'', owned:'' }];
+  area._vehicles = vehicles;
+
+  function draw() {
+    area.innerHTML = `<div class="labeled-repeat" id="vehicles-list"></div>
+      <button class="add-row-btn" onclick="addVehicle()">+ Add Another Vehicle</button>`;
+    const list = area.querySelector('#vehicles-list');
+    vehicles.forEach((v, i) => {
+      const block = document.createElement('div');
+      block.className = 'labeled-block';
+      block.innerHTML = `
+        <div class="labeled-block-title">Vehicle ${i+1}
+          ${i > 0 ? `<button class="remove-row-btn" onclick="removeVehicle(${i})">×</button>` : ''}
+        </div>
+
+        <input class="q-input" placeholder="VIN (required) — 17 characters" value="${v.vin}" oninput="updateVehicle(${i},'vin',this.value)" maxlength="17" style="font-family:monospace;letter-spacing:1px;">
+        <div style="font-size:11px;color:#9aa5b4;margin-top:4px;">Found on your dashboard (driver's side) or registration</div>
+        <div class="labeled-grid" style="margin-top:8px;">
+          <input class="q-input" placeholder="Year (optional)" value="${v.year}" oninput="updateVehicle(${i},'year',this.value)">
+          <input class="q-input" placeholder="Make (optional)" value="${v.make}" oninput="updateVehicle(${i},'make',this.value)">
+          <input class="q-input" placeholder="Model (optional)" value="${v.model}" oninput="updateVehicle(${i},'model',this.value)" style="grid-column:span 2;">
+        </div>
+
+        <div style="border-top:1.5px solid #e2e8f0;margin:14px 0;"></div>
+
+        <div style="font-size:11px;color:#9aa5b4;margin-bottom:6px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;">How long owned?</div>
+        <input class="q-input" placeholder="e.g.  3 years  /  Since 2021  /  Just bought it" value="${v.owned}" oninput="updateVehicle(${i},'owned',this.value)">
+
+        <div style="font-size:11px;color:#9aa5b4;margin-top:12px;margin-bottom:6px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;">Primary use</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          ${['Pleasure / Personal','Commute to work','To / From school','Business use'].map(opt =>
+            `<button type="button" style="padding:7px 14px;border:2px solid ${v.use === opt ? '#1a365d' : '#e2e8f0'};border-radius:8px;background:${v.use === opt ? '#1a365d' : 'white'};color:${v.use === opt ? 'white' : '#4a5568'};font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;" onclick="setVehicleUse(${i},'${opt}',this)">${opt}</button>`
+          ).join('')}
+        </div>`;
+      list.appendChild(block);
+    });
+    area._vehicles = vehicles;
+  }
+
+  draw();
+
+  window.addVehicle = () => { vehicles.push({ year:'', make:'', model:'', vin:'', owned:'', use:'' }); draw(); };
+  window.removeVehicle = (i) => { vehicles.splice(i, 1); draw(); };
+  window.updateVehicle = (i, key, val) => { vehicles[i][key] = val; };
+  window._getVehicles = () => vehicles;
+  window.setVehicleUse = (i, opt, btn) => {
+    vehicles[i].use = opt;
+    btn.closest('[style*="flex-wrap"]').querySelectorAll('button').forEach(b => {
+      b.style.borderColor = '#e2e8f0';
+      b.style.background = 'white';
+      b.style.color = '#4a5568';
+    });
+    btn.style.borderColor = '#1a365d';
+    btn.style.background = '#1a365d';
+    btn.style.color = 'white';
+  };
+}
+
+// ── Driver repeater ──
+function renderDrivers(area, existing) {
+  let drivers = existing ? JSON.parse(existing) : [{ name:'', license:'' }];
+
+  function draw() {
+    area.innerHTML = `<div class="labeled-repeat" id="drivers-list"></div>
+      <button class="add-row-btn" onclick="addDriver()">+ Add Another Driver</button>`;
+    const list = area.querySelector('#drivers-list');
+    drivers.forEach((d, i) => {
+      const block = document.createElement('div');
+      block.className = 'labeled-block';
+      block.innerHTML = `
+        <div class="labeled-block-title">Driver ${i+1}
+          ${i > 0 ? `<button class="remove-row-btn" onclick="removeDriver(${i})">×</button>` : ''}
+        </div>
+        <div class="labeled-grid">
+          <input class="q-input" placeholder="Full name" value="${d.name}" oninput="updateDriver(${i},'name',this.value)">
+          <input class="q-input" placeholder="License number" value="${d.license}" oninput="updateDriver(${i},'license',this.value)">
+        </div>`;
+      list.appendChild(block);
+    });
+  }
+
+  draw();
+
+  window.addDriver    = () => { drivers.push({ name:'', license:'' }); draw(); };
+  window.removeDriver = (i) => { drivers.splice(i, 1); draw(); };
+  window.updateDriver = (i, key, val) => { drivers[i][key] = val; };
+  window._getDrivers  = () => drivers;
+}
+
+// ═══════════════════════════════════════════
+//  INTERACTION
+// ═══════════════════════════════════════════
+
+function selectChoice(btn, qId, value) {
+  document.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  answers[qId] = value;
+}
+
+function selectYN(btn, qId, value) {
+  btn.closest('.yn-row').querySelectorAll('.yn-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  answers[qId] = value;
+}
+
+function collectCurrentAnswer() {
+  const q = getCurrentQuestion();
+  if (!q) return true;
+
+  const err = document.getElementById('error-msg');
+  err.textContent = '';
+
+  switch (q.type) {
+    case 'text': {
+      const el = document.getElementById('q-main-input');
+      const val = el ? el.value.trim() : '';
+      if (q.required && !val) { err.textContent = 'Please fill this in before continuing.'; el.classList.add('error'); return false; }
+      answers[q.id] = val;
+      break;
+    }
+    case 'date': {
+      const el = document.getElementById('q-main-input');
+      const val = el ? el.value : '';
+      answers[q.id] = val;
+      break;
+    }
+    case 'textarea': {
+      const el = document.getElementById('q-main-input');
+      const val = el ? el.value.trim() : '';
+      if (q.required && !val) { err.textContent = 'Please fill this in before continuing.'; return false; }
+      answers[q.id] = val;
+      break;
+    }
+    case 'pair': {
+      const inputs = document.querySelectorAll('.pair-input');
+      const vals = Array.from(inputs).map(i => i.value.trim());
+      if (q.required && vals.some(v => !v)) { err.textContent = 'Please fill in both fields.'; return false; }
+      answers[q.id] = vals.join('||');
+      break;
+    }
+    case 'choice':
+    case 'yesno': {
+      if (q.required && !answers[q.id]) { err.textContent = 'Please make a selection before continuing.'; return false; }
+      break;
+    }
+    case 'people': {
+      const p = window._getPeople ? window._getPeople() : [];
+      if (!p.length || !p[0].first || !p[0].last) { err.textContent = 'Please enter at least one person\'s name.'; return false; }
+      answers[q.id] = JSON.stringify(p);
+      break;
+    }
+    case 'vehicles': {
+      const v = window._getVehicles ? window._getVehicles() : [];
+      if (!v.length || !v[0].vin) { err.textContent = 'Please enter the VIN for at least one vehicle.'; return false; }
+      const missingVin = v.filter(x => !x.vin);
+      if (missingVin.length) { err.textContent = 'Please enter a VIN for every vehicle listed.'; return false; }
+      answers[q.id] = JSON.stringify(v);
+      break;
+    }
+    case 'drivers': {
+      const d = window._getDrivers ? window._getDrivers() : [];
+      if (!d.length || !d[0].name) { err.textContent = 'Please enter at least one driver name.'; return false; }
+      answers[q.id] = JSON.stringify(d);
+      break;
+    }
+  }
+  return true;
+}
+
+function getAnswerDisplayText(q) {
+  const val = answers[q.id];
+  if (!val) return '(skipped)';
+  switch (q.type) {
+    case 'pair': return val.replace('||', ' ');
+    case 'people': {
+      const ps = JSON.parse(val);
+      return ps.map(p => `${p.first} ${p.last}`.trim()).join(', ');
+    }
+    case 'vehicles': {
+      const vs = JSON.parse(val);
+      return vs.map(v => {
+        const desc = `${v.year} ${v.make} ${v.model}`.trim();
+        return desc ? `${desc} (${v.vin})` : `VIN: ${v.vin}`;
+      }).join(', ');
+    }
+    case 'drivers': {
+      const ds = JSON.parse(val);
+      return ds.map(d => d.name).join(', ');
+    }
+    case 'date': return val ? new Date(val + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '(skipped)';
+    default: return val;
+  }
+}
+
+function addToHistory(q) {
+  const hist = document.getElementById('chat-history');
+
+  // Agent bubble (question)
+  const agentRow = document.createElement('div');
+  agentRow.className = 'bubble-row agent';
+  agentRow.innerHTML = `<div class="avatar">D</div><div class="bubble">${typeof q.text === 'function' ? q.text(answers) : q.text}</div>`;
+  hist.appendChild(agentRow);
+
+  // User bubble (answer)
+  const display = getAnswerDisplayText(q);
+  const userRow = document.createElement('div');
+  userRow.className = 'bubble-row user';
+  userRow.innerHTML = `<div class="bubble">${display}</div>`;
+  hist.appendChild(userRow);
+
+  hist.scrollTop = hist.scrollHeight;
+}
+
+function goNext() {
+  if (!collectCurrentAnswer()) return;
+
+  const q = getCurrentQuestion();
+  if (q) addToHistory(q);
+
+  currentIdx++;
+  const visible = getVisibleQuestions();
+  // Skip ahead if out of bounds
+  while (currentIdx < visible.length && visible[currentIdx].when && !visible[currentIdx].when(answers)) {
+    currentIdx++;
+  }
+  if (currentIdx >= visible.length) { showComplete(); return; }
+  render();
+}
+
+function goBack() {
+  if (currentIdx <= 0) return;
+  // Remove last two entries from history (agent + user)
+  const hist = document.getElementById('chat-history');
+  if (hist.lastChild) hist.removeChild(hist.lastChild);
+  if (hist.lastChild) hist.removeChild(hist.lastChild);
+
+  currentIdx--;
+  const visible = getVisibleQuestions();
+  while (currentIdx > 0 && visible[currentIdx] && visible[currentIdx].when && !visible[currentIdx].when(answers)) {
+    currentIdx--;
+  }
+  render();
+}
+
+// ═══════════════════════════════════════════
+//  COMPLETE
+// ═══════════════════════════════════════════
+
+function showComplete() {
+  document.getElementById('question-card').style.display = 'none';
+  document.getElementById('complete-card').style.display = 'block';
+  document.getElementById('progress-fill').style.width = '100%';
+  document.getElementById('progress-text').textContent = 'Done!';
+}
+
+function buildSummary() {
+  const a = answers;
+  const line = (label, val) => val ? `${label}: ${val}` : null;
+  const sep  = (t) => `\n${'═'.repeat(48)}\n  ${t}\n${'═'.repeat(48)}`;
+  const rows = [];
+
+  const submitted = new Date().toLocaleString();
+  // Parse policyholders
+  let people = [];
+  if (a.applicant_people) {
+    try { people = JSON.parse(a.applicant_people); } catch(e) {}
+  }
+  const clientName = people.length ? people.map(p => `${p.first} ${p.last}`.trim()).join(' & ') : 'Client';
+
+  rows.push(`INSURANCE QUOTE REQUEST`);
+  rows.push(`Submitted: ${submitted}`);
+  rows.push(line('Policy Type', a.policy_type));
+
+  rows.push(sep('POLICYHOLDERS'));
+  people.forEach((p, i) => {
+    const dob = p.dob ? new Date(p.dob + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'DOB not provided';
+    rows.push(`  ${i + 1}. ${p.first} ${p.last} — DOB: ${dob}`);
+  });
+  rows.push(line('Occupation(s)', a.occupation));
+  rows.push(line('Current Address', a.current_address));
+  rows.push(line('At Address 3+ Years', a.lived_3yrs));
+  rows.push(line('Previous Addresses', a.prev_addresses));
+  rows.push(line('Children at Home', a.children === 'Yes' ? `Yes — ${a.children_details || 'details not provided'}` : 'No'));
+
+  if (isHome(a)) {
+    rows.push(sep('HOME INFORMATION'));
+    rows.push(line('Insured Property Address', a.home_address_same === 'Yes' ? a.current_address : a.home_address));
+    rows.push(line('New Home Purchase', a.new_purchase));
+    rows.push(line('Estimated Closing Date', a.closing_date));
+    rows.push(line('Mortgage', a.has_mortgage === 'Yes' ? `Yes — ${a.mortgage_info || 'lender not provided'}` : 'No mortgage'));
+    rows.push(line('Roof Age / Last Replaced', a.roof_age));
+    rows.push(line('Furnace Age', a.furnace_age));
+    rows.push(line('Electrical & Plumbing', a.systems_age));
+    rows.push(line('Current Home Insurance', a.has_home_insurance === 'Yes' ? `Yes — ${a.home_insurance_info || 'carrier not provided'}` : 'No current coverage'));
+    rows.push(line('Dog on Property', a.has_dog === 'Yes' ? `Yes — ${a.dog_breed || 'breed not provided'}` : 'No'));
+    rows.push(line('Pool / Hot Tub / Trampoline', a.pool_trampoline));
+    rows.push(line('Current Home Deductible', a.home_deductible));
+    rows.push(line('Home Policy Expiration', a.home_policy_expires));
+  }
+
+  if (isRenters(a)) {
+    rows.push(sep('RENTERS INFORMATION'));
+    rows.push(line('Apartment Address', a.renters_address_same === 'Yes' ? a.current_address : a.renters_address));
+    rows.push(line('Personal Property Limit', a.renters_pp_limit));
+    rows.push(line('Coverage Start Date', a.renters_start_date ? new Date(a.renters_start_date + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : null));
+    rows.push(line('Sprinkler System', a.renters_sprinkler));
+    rows.push(line('Garage / Carport', a.renters_garage));
+    rows.push(line('Pets', a.renters_pets === 'Yes' ? `Yes — ${a.renters_pet_type || 'type not provided'}` : 'No'));
+    rows.push(line('Prior Renters/Home Insurance', a.renters_prior === 'Yes' ? `Yes — ${a.renters_prior_info || 'details not provided'}` : 'No — first time'));
+  }
+
+  if (isAuto(a)) {
+    rows.push(sep('AUTO INFORMATION'));
+    rows.push(line('Coverage Preference', a.coverage_pref));
+    rows.push(line('Current Deductibles', a.current_deductibles));
+    rows.push(line('Current Auto Insurance', a.has_auto_insurance === 'Yes' ? `Yes — ${a.current_auto_carrier || 'carrier not provided'}` : 'No current coverage'));
+    rows.push(line('Auto Policy Expiration', a.has_auto_insurance === 'Yes' ? a.auto_policy_expires : null));
+    rows.push(line('Vehicle Loans / Leases', a.vehicle_loans === 'Yes' ? `Yes — ${a.loan_details || 'details not provided'}` : 'No'));
+    rows.push(line('Rideshare / Delivery Use', a.rideshare));
+    rows.push(line('Health Insurance', a.health_insurance === 'Yes' ? `Yes — ${a.health_carrier || 'carrier not provided'}` : 'No'));
+
+    if (a.vehicles) {
+      const vs = JSON.parse(a.vehicles);
+      rows.push('\nVehicles:');
+      vs.forEach((v, i) => {
+        const ymm = `${v.year} ${v.make} ${v.model}`.trim();
+        let desc = `  Vehicle ${i+1}: VIN ${v.vin}`;
+        if (ymm) desc += ` (${ymm})`;
+        if (v.owned) desc += ` | Owned: ${v.owned}`;
+        if (v.use)   desc += ` | Use: ${v.use}`;
+        rows.push(desc);
+      });
+    }
+
+    if (a.drivers) {
+      const ds = JSON.parse(a.drivers);
+      rows.push('\nDrivers:');
+      ds.forEach((d, i) => {
+        rows.push(`  Driver ${i+1}: ${d.name}` + (d.license ? ` | License: ${d.license}` : ''));
+      });
+    }
+  }
+
+  if (a.anything_else) {
+    rows.push(sep('ADDITIONAL NOTES'));
+    rows.push(a.anything_else);
+  }
+
+  rows.push(`\n${'═'.repeat(48)}`);
+  rows.push('Submitted via Shield Insurance client intake form.');
+  rows.push('═'.repeat(48));
+
+  return { summary: rows.filter(r => r !== null).join('\n'), clientName };
+}
+
+let selectedFiles = [];
+const MAX_FILE_BYTES = 15 * 1024 * 1024;  // 15 MB per file — server enforces same
+const MAX_TOTAL_BYTES = 22 * 1024 * 1024; // 22 MB total — keeps the email under Gmail's 25 MB cap
+
+function fmtBytes(b) {
+  if (b < 1024) return `${b} B`;
+  if (b < 1024 * 1024) return `${(b / 1024).toFixed(0)} KB`;
+  return `${(b / 1024 / 1024).toFixed(1)} MB`;
+}
+
+function handleFiles(files) {
+  selectedFiles = Array.from(files);
+  const list = document.getElementById('file-list');
+  const info = document.getElementById('file-size-info');
+  const sendBtn = document.getElementById('send-btn');
+  list.innerHTML = '';
+  selectedFiles.forEach((f) => {
+    const chip = document.createElement('div');
+    chip.className = 'file-chip';
+    const oversize = f.size > MAX_FILE_BYTES;
+    chip.innerHTML = `${oversize ? '⚠️' : '✅'} ${f.name} <span style="opacity:0.6">(${fmtBytes(f.size)})</span>`;
+    list.appendChild(chip);
+  });
+  const total = selectedFiles.reduce((s, f) => s + f.size, 0);
+  const anyOversize = selectedFiles.some(f => f.size > MAX_FILE_BYTES);
+  const overTotal = total > MAX_TOTAL_BYTES;
+  const blocked = anyOversize || overTotal;
+  let msg = '';
+  if (selectedFiles.length) {
+    msg = `Total: ${fmtBytes(total)} of 22 MB`;
+    if (anyOversize) msg += ' — one or more files exceed 15 MB';
+    else if (overTotal) msg += ' — over total limit, please remove some files';
+  }
+  info.textContent = msg;
+  info.style.color = blocked ? '#c53030' : '#7a8597';
+  sendBtn.disabled = blocked;
+  sendBtn.style.opacity = blocked ? '0.5' : '1';
+  sendBtn.style.cursor = blocked ? 'not-allowed' : 'pointer';
+}
+
+// Upload a single file directly to Vercel Blob, returning the metadata our submit endpoint needs.
+// Uses @vercel/blob/client's `upload()` which handles the token exchange + multipart PUT for us.
+async function uploadOne(file, { upload }) {
+  const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+  const path = `intake/${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${safeName}`;
+  const result = await upload(path, file, {
+    access: 'public',
+    handleUploadUrl: '/api/intake-upload-token',
+    contentType: file.type || 'application/octet-stream',
+  });
+  return { name: file.name, url: result.url, type: file.type || 'application/octet-stream', size: file.size };
+}
+
+async function submitForm() {
+  const btn = document.getElementById('send-btn');
+  const note = document.getElementById('send-note');
+  btn.disabled = true;
+  btn.style.opacity = '0.6';
+  btn.style.cursor = 'wait';
+  btn.textContent = '⏳ Submitting…';
+  note.textContent = selectedFiles.length
+    ? `Uploading ${selectedFiles.length} file${selectedFiles.length === 1 ? '' : 's'}…`
+    : 'Sending your information…';
+  note.style.color = '#4a5568';
+
+  try {
+    const { summary, clientName } = buildSummary();
+
+    let files = [];
+    if (selectedFiles.length) {
+      // Lazy-load the Blob client SDK from CDN only when there's actually something to upload.
+      // Skypack serves the ESM build that browsers can import directly.
+      const { upload } = await import('https://esm.sh/@vercel/blob@2/client?bundle');
+      let done = 0;
+      files = [];
+      for (const f of selectedFiles) {
+        const meta = await uploadOne(f, { upload });
+        files.push(meta);
+        done++;
+        note.textContent = `Uploaded ${done}/${selectedFiles.length} file${selectedFiles.length === 1 ? '' : 's'}…`;
+      }
+      note.textContent = 'Sending your information…';
+    }
+
+    const r = await fetch('/api/intake-submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ answers, files, summary, clientName }),
+    });
+    const body = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(body.error || `HTTP ${r.status}`);
+
+    const card = document.getElementById('complete-card');
+    card.innerHTML = `
+      <div class="icon">✅</div>
+      <h2>You're all set!</h2>
+      <p style="margin:8px 0 24px;color:#4a5568">
+        Thanks ${escapeHtml(clientName || 'so much')}. David has your information${files.length ? ` and your ${files.length} document${files.length === 1 ? '' : 's'}` : ''}, and will reach out shortly to follow up on your quote.
+      </p>
+      <p style="font-size:13px;color:#9aa5b4">You can close this page.</p>
+    `;
+  } catch (err) {
+    console.error(err);
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.style.cursor = 'pointer';
+    btn.textContent = '📨 Submit to David';
+    note.textContent = `Submission failed: ${err.message}. Please try again or call David at 616-616-4884.`;
+    note.style.color = '#c53030';
+    note.style.fontWeight = '600';
+  }
+}
+
+function escapeHtml(s) {
+  const d = document.createElement('div');
+  d.textContent = String(s ?? '');
+  return d.innerHTML;
+}
+
+// ═══════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════
+render();
+</script>
+</body>
+</html>

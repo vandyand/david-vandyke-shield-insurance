@@ -1,19 +1,19 @@
 {
-  "slug": "general",
-  "name": "David VanDyke Insurance",
+  "slug": "general-indiana",
+  "name": "David VanDyke Insurance - Indiana",
   "defaults": {
     "hero_cta_url": "https://calendly.com/davidvd-shieldagency/15-minute-meeting",
     "contact_cta_url": "https://calendly.com/davidvd-shieldagency/15-minute-meeting",
-    "about_state": "Michigan",
-    "about_intro": "Hi, my name is David VanDyke, and I've lived in West Michigan my entire life. This community means the world to me, and I'm passionate about helping the people around me protect the things they love most.",
-    "about_personal": "When I'm not helping clients, I enjoy watching sports (Go Blue!), collecting fountain pens, and reading books beside a cozy fire. Most of all, I love spending time with my wife, Caroline, and our four wonderful children—Weston, August, Callum, and Charlotte. Whether it's enjoying the beauty of West Michigan or cheering on my favorite team, I'm grateful to call this place home.",
-    "about_shield": "Shield is an independent agency with a long track record of serving Michigan families. I'm proud to be part of those strong client relationships, and I can compare options across a broad marketplace of carriers to match coverage and budgets with confidence."
+    "about_state": "Indiana",
+    "about_intro": "Hi, my name is David VanDyke, and I'm proud to serve Indiana families with honest, personalized insurance guidance. I'm passionate about helping people protect the things they love most.",
+    "about_personal": "When I'm not helping clients, I enjoy watching sports (Go Blue!), collecting fountain pens, and reading books beside a cozy fire. Most of all, I love spending time with my wife, Caroline, and our four wonderful children—Weston, August, Callum, and Charlotte. Whether it's cheering on my favorite team or spending time with family, I'm grateful for every day.",
+    "about_shield": "Shield is an independent agency with a long track record of serving families across multiple states including Indiana. I'm proud to be part of those strong client relationships, and I can compare options across a broad marketplace of carriers to match coverage and budgets with confidence."
   },
   "variants": {
     "a": {
       "hero": {
         "headline": "Insurance Made Personal",
-        "subheadline": "Honest advice. Better coverage. Your Michigan agent who puts you first.",
+        "subheadline": "Honest advice. Better coverage. Your Indiana agent who puts you first.",
         "cta_text": "Book a Free Consultation"
       },
       "why_choose": {
@@ -28,7 +28,7 @@
           {
             "icon": "map-pin",
             "title": "Local & Personal",
-            "desc": "I'm a real person right here in Michigan. When you call, you get me\u2014not a call center."
+            "desc": "I'm a real person right here in Indiana. When you call, you get me\u2014not a call center."
           },
           {
             "icon": "headphones",
@@ -49,7 +49,7 @@
           {
             "icon": "car",
             "title": "Auto Insurance",
-            "desc": "Liability, collision, comprehensive, and Michigan no-fault coverage for your vehicles."
+            "desc": "Liability, collision, comprehensive, and full coverage for your vehicles."
           },
           {
             "icon": "home",
@@ -64,7 +64,7 @@
           {
             "icon": "briefcase",
             "title": "Business Insurance",
-            "desc": "General liability, property, workers' comp, and more for Michigan businesses."
+            "desc": "General liability, property, workers' comp, and more for Indiana businesses."
           },
           {
             "icon": "hard-hat",
@@ -116,8 +116,8 @@
             "a": "I can help with auto, home, life, Medicare, business, and more. If you're not sure where your need fits, just ask and I'll point you in the right direction."
           },
           {
-            "q": "Do you only serve Michigan?",
-            "a": "I'm licensed in Michigan and proudly serve families throughout the state, with a focus on West Michigan where I live and work. Shield Insurance Agency is licensed in additional states (AZ, FL, IL, IN, MO, NC, OH, UT), so if you're outside Michigan, I can connect you with a Shield agent in your area."
+            "q": "Do you serve Indiana?",
+            "a": "Yes! Shield Insurance Agency is licensed in Indiana and I proudly serve families throughout the state. Shield is also licensed in additional states (AZ, FL, IL, MI, MO, NC, OH, UT), so if you're outside Indiana, I can connect you with a Shield agent in your area."
           },
           {
             "q": "How do I get a quote?",
@@ -154,7 +154,7 @@
     "b": {
       "hero": {
         "headline": "Protect What Matters Most",
-        "subheadline": "Compare 50+ carriers in one call. Your independent Michigan agent who finds you better coverage for less.",
+        "subheadline": "Compare 50+ carriers in one call. Your independent Indiana agent who finds you better coverage for less.",
         "cta_text": "Schedule a Call"
       }
     }

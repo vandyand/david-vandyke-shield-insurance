@@ -3,7 +3,11 @@
   "name": "Restaurant Insurance | David VanDyke",
   "defaults": {
     "hero_cta_url": "https://calendly.com/davidvd-shieldagency/15-minute-meeting",
-    "contact_cta_url": "https://calendly.com/davidvd-shieldagency/15-minute-meeting"
+    "contact_cta_url": "https://calendly.com/davidvd-shieldagency/15-minute-meeting",
+    "about_state": "Michigan",
+    "about_intro": "Hi, my name is David VanDyke, and I've lived in West Michigan my entire life. This community means the world to me, and I'm passionate about helping the people around me protect the things they love most.",
+    "about_personal": "When I'm not helping clients, I enjoy watching sports (Go Blue!), collecting fountain pens, and reading books beside a cozy fire. Most of all, I love spending time with my wife, Caroline, and our four wonderful children\u2014Weston, August, Callum, and Charlotte. Whether it's enjoying the beauty of West Michigan or cheering on my favorite team, I'm grateful to call this place home.",
+    "about_shield": "Shield is an independent agency with a long track record of serving Michigan families. I'm proud to be part of those strong client relationships, and I can compare options across a broad marketplace of carriers to match coverage and budgets with confidence."
   },
   "variants": {
     "a": {

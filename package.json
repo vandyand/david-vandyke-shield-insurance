@@ -6,6 +6,7 @@
     "build": "node build.cjs"
   },
   "dependencies": {
+    "@vercel/blob": "^2.4.0",
     "@vercel/edge-config": "^1.4.3",
     "@vercel/functions": "^3.4.3"
   }

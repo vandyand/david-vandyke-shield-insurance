@@ -23,3 +23,11 @@ node_modules/
 # Build output
 public/
 .vercel
+.env*.local
+
+# Local secrets and artifacts
+.env.temp
+.env
+__pycache__/
+*.pyc
+*:Zone.Identifier
