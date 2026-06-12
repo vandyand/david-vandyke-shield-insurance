@@ -241,6 +241,12 @@ body {
   min-width: 120px;
   text-align: center;
 }
+/* 5+ options: equal-width boxes, 3 per row, last row centered */
+.choice-grid.cols-3 { justify-content: center; }
+.choice-grid.cols-3 .choice-btn { flex: 0 1 calc((100% - 20px) / 3); min-width: 0; }
+@media (max-width: 480px) {
+  .choice-grid.cols-3 .choice-btn { flex: 0 1 calc((100% - 10px) / 2); }
+}
 .choice-btn:hover { border-color: #1a365d; color: #1a365d; background: #f0f5ff; }
 .choice-btn.selected { border-color: #1a365d; background: #1a365d; color: white; }
 
@@ -966,7 +972,7 @@ function render() {
 
   switch (q.type) {
     case 'choice':
-      area.innerHTML = `<div class="choice-grid">${q.options.map(o =>
+      area.innerHTML = `<div class="choice-grid${q.options.length >= 5 ? ' cols-3' : ''}">${q.options.map(o =>
         `<button class="choice-btn${existing === o ? ' selected' : ''}" onclick="selectChoice(this,'${q.id}','${o}')">${o}</button>`
       ).join('')}</div>`;
       break;
