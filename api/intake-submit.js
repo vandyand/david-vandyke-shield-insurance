@@ -77,7 +77,18 @@ export default async function handler(req, res) {
     if (!emailResp.ok) {
       const err = await emailResp.text();
       console.error('Resend error:', err);
-      // Keep going — don't lose the lead in the sheet just because email failed
+      // ── TEMPORARY DIAGNOSTIC (preview only — remove before merging to main) ──
+      // Surface Resend's exact rejection so we can see why intake emails stopped
+      // delivering. Normally this branch swallows the error and returns success.
+      const diag = [
+        `Resend rejected the email (HTTP ${emailResp.status}).`,
+        `Resend said: ${err || '(empty response body)'}`,
+        `Sending from: ${FROM_EMAIL}  →  to: ${NOTIFY_EMAIL}`,
+        `RESEND_API_KEY in this environment: ${RESEND_API_KEY ? `present (length ${RESEND_API_KEY.length})` : 'MISSING / empty'}`,
+      ].join('  |  ');
+      await cleanupBlobs(blobs);
+      return res.status(502).json({ error: diag });
+      // ── END DIAGNOSTIC ──
     }
 
     // 2. Append to the leads sheet so it shows on the dashboard
