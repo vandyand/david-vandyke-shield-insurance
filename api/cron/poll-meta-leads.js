@@ -9,7 +9,7 @@ const LEADS_SHEET_URL = cleanEnv(process.env.LEADS_SHEET_URL);
 const LEADS_SHEET_TOKEN = cleanEnv(process.env.LEADS_SHEET_TOKEN);
 const CRON_SECRET = cleanEnv(process.env.CRON_SECRET);
 const NOTIFY_EMAIL = 'davidvd@shieldagency.com';
-const FROM_EMAIL = 'Shield Insurance Leads <leads@pragmagen.xyz>';
+const FROM_EMAIL = 'Shield Insurance Leads <leads@davidvandykeinsurance.com>';
 
 // Hardcoded list of lead form IDs to poll. Add new ones here when creating new lead-gen ads.
 const FORM_IDS = [

@@ -1525,6 +1525,11 @@ async function submitForm() {
     const body = await r.json().catch(() => ({}));
     if (!r.ok) throw new Error(body.error || `HTTP ${r.status}`);
 
+    // The server returns 200 with emailDelivered:false when the lead was recorded
+    // but the notification email to David was rejected. Don't claim an unqualified
+    // success in that case — the submission is safe, but it needs a nudge by phone.
+    const emailFailed = body.emailDelivered === false;
+
     const card = document.getElementById('complete-card');
     card.innerHTML = `
       <div class="icon">✅</div>
@@ -1532,6 +1537,14 @@ async function submitForm() {
       <p style="margin:8px 0 24px;color:#4a5568">
         Thanks ${escapeHtml(clientName || 'so much')}. David has your information${files.length ? ` and your ${files.length} document${files.length === 1 ? '' : 's'}` : ''}, and will reach out shortly to follow up on your quote.
       </p>
+      ${emailFailed ? `
+      <div style="margin:0 0 24px;padding:14px;background:#fffbeb;border:1px solid #f6e05e;border-radius:6px;text-align:left">
+        <p style="margin:0;color:#744210;font-size:14px">
+          ⚠️ <strong>One thing —</strong> our email notification to David didn't go through just now.
+          Your information is saved, but please call David at
+          <a href="tel:6166164884" style="color:#744210;font-weight:600">616-616-4884</a> so nothing slips through.
+        </p>
+      </div>` : ''}
       <p style="font-size:13px;color:#9aa5b4">You can close this page.</p>
     `;
   } catch (err) {
