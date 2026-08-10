@@ -1,9 +1,11 @@
 // Receives client intake form submissions from /intake.
 // Browser uploads files directly to Vercel Blob first (see /api/intake-upload-token),
 // then POSTs the form here with Blob URLs. This handler:
-//   1. Downloads each blob, attaches it to a Resend email to David
-//   2. Appends a row to the lead sheet via Apps Script doPost
-//   3. Deletes the blobs (email is the persistence layer; no need to keep them)
+//   1. Appends a row to the lead sheet via Apps Script doPost — first, so a lead
+//      is recorded even if the email leg fails
+//   2. Downloads each blob, attaches it to a Resend email to David
+//   3. Deletes the blobs, but ONLY once the email is accepted — the email is the
+//      persistence layer for attachments, so a failed send must keep them
 
 import { del } from '@vercel/blob';
 
@@ -14,7 +16,7 @@ const LEADS_SHEET_URL = cleanEnv(process.env.LEADS_SHEET_URL);
 const LEADS_SHEET_TOKEN = cleanEnv(process.env.LEADS_SHEET_TOKEN);
 const BLOB_TOKEN = cleanEnv(process.env.BLOB_READ_WRITE_TOKEN);
 const NOTIFY_EMAIL = 'davidvd@shieldagency.com';
-const FROM_EMAIL = 'Shield Insurance Intake <leads@pragmagen.xyz>';
+const FROM_EMAIL = 'Shield Insurance Intake <leads@davidvandykeinsurance.com>';
 const MAX_EMAIL_BYTES = 22 * 1024 * 1024; // ~22 MB attachments total — keeps email under Gmail's 25 MB cap
 
 export default async function handler(req, res) {
@@ -61,26 +63,8 @@ export default async function handler(req, res) {
     const replyTo = guessReplyTo(answers);
     const subject = `📋 Intake form: ${clientName || 'New client'}${answers.policy_type ? ' — ' + answers.policy_type : ''}`;
 
-    // 1. Send the email
-    const emailResp = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${RESEND_API_KEY}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        from: FROM_EMAIL,
-        to: [NOTIFY_EMAIL],
-        ...(replyTo ? { reply_to: replyTo } : {}),
-        subject,
-        html,
-        attachments,
-      }),
-    });
-    if (!emailResp.ok) {
-      const err = await emailResp.text();
-      console.error('Resend error:', err);
-      // Keep going — don't lose the lead in the sheet just because email failed
-    }
-
-    // 2. Append to the leads sheet so it shows on the dashboard
+    // 1. Append to the leads sheet first, so the lead survives an email failure
+    //    and still shows up on the dashboard.
     try {
       const leadId = `intake_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
       const sheetUrl = `${LEADS_SHEET_URL}?token=${encodeURIComponent(LEADS_SHEET_TOKEN)}`;
@@ -105,10 +89,42 @@ export default async function handler(req, res) {
       console.warn('Sheet append failed (non-fatal):', sheetErr.message);
     }
 
-    // 3. Delete blobs — email is now the persistence layer
+    // 2. Send the email
+    const emailResp = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from: FROM_EMAIL,
+        to: [NOTIFY_EMAIL],
+        ...(replyTo ? { reply_to: replyTo } : {}),
+        subject,
+        html,
+        attachments,
+      }),
+    });
+    if (!emailResp.ok) {
+      // Do NOT swallow this. The lead is already in the sheet, but David won't be
+      // notified, so say so instead of rendering an unqualified success screen.
+      // Blobs are deliberately left in place — without a sent email they are the
+      // only remaining copy of the client's documents.
+      const err = await emailResp.text();
+      console.error(
+        `Resend error: HTTP ${emailResp.status} from ${FROM_EMAIL} → ${NOTIFY_EMAIL}: ${err || '(empty response body)'}`
+      );
+      if (blobs.length) {
+        console.error('Retained blobs (email failed):', blobs.map(f => f.url).join(', '));
+      }
+      return res.status(200).json({
+        success: true,
+        emailDelivered: false,
+        emailError: `Resend rejected the send (HTTP ${emailResp.status}).`,
+      });
+    }
+
+    // 3. Delete blobs — the email is now the persistence layer
     await cleanupBlobs(blobs);
 
-    return res.status(200).json({ success: true });
+    return res.status(200).json({ success: true, emailDelivered: true });
   } catch (err) {
     console.error('Intake submit error:', err);
     return res.status(500).json({ error: err.message || 'Internal error' });

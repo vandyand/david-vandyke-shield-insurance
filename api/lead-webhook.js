@@ -6,7 +6,7 @@ const VERIFY_TOKEN = (process.env.LEAD_WEBHOOK_VERIFY_TOKEN || 'shield_lead_veri
 const PAGE_TOKEN = process.env.FACEBOOK_PAGE_TOKEN;
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const NOTIFY_EMAIL = 'davidvd@shieldagency.com';
-const FROM_EMAIL = 'Shield Insurance Leads <leads@pragmagen.xyz>';
+const FROM_EMAIL = 'Shield Insurance Leads <leads@davidvandykeinsurance.com>';
 
 export default async function handler(req, res) {
   // ── Webhook verification (Meta sends GET when you register the webhook) ───
