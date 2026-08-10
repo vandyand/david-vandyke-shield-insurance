@@ -7,6 +7,46 @@ const TEMPLATES = path.join(ROOT, 'templates');
 const SECTIONS = path.join(TEMPLATES, 'sections');
 const NICHES = path.join(ROOT, 'niches');
 
+// ── SEO config ──────────────────────────────────────────────────────────────
+const SITE_URL = 'https://davidvandykeinsurance.com';
+
+// The public "clean" URL for a niche. The middleware serves both A/B variants
+// transparently at this same path, so it is also each page's canonical URL.
+function cleanPathFor(slug) {
+  if (slug === 'general') return '/';
+  if (slug === 'general-indiana') return '/indiana';
+  return `/${slug}`;
+}
+
+// Per-page <title> and meta description. Falls back to the niche name / empty
+// description if a slug isn't listed. Ampersands are pre-escaped for HTML.
+const SEO = {
+  'general': {
+    title: 'David VanDyke Insurance | Auto, Home &amp; Life in West Michigan',
+    description: 'Independent Michigan insurance agent David VanDyke compares top carriers to find you better auto, home, life, and business coverage. Honest advice—get a free quote.',
+  },
+  'landscaper': {
+    title: 'Landscaper Insurance in Michigan | David VanDyke Insurance',
+    description: 'Insurance for Michigan landscapers—general liability, equipment, and commercial auto. Independent agent David VanDyke compares carriers for the right coverage. Free quote.',
+  },
+  'contractor': {
+    title: 'Contractor Insurance in Michigan | David VanDyke Insurance',
+    description: 'Protect your contracting business—liability, tools, and commercial auto. Michigan independent agent David VanDyke shops top carriers to fit your needs. Free quote.',
+  },
+  'restaurant': {
+    title: 'Restaurant Insurance in Michigan | David VanDyke Insurance',
+    description: 'Coverage for Michigan restaurants—liability, property, liquor, and more. Independent agent David VanDyke compares top carriers to fit your budget. Free quote.',
+  },
+  'home-business': {
+    title: 'Home Business Insurance in Michigan | David VanDyke Insurance',
+    description: "Running a business from home in Michigan? Get coverage your homeowners policy won't. Independent agent David VanDyke compares carriers for the right fit. Free quote.",
+  },
+  'general-indiana': {
+    title: 'Indiana Insurance Agent | Auto, Home &amp; Life | David VanDyke',
+    description: 'Independent insurance agent David VanDyke helps Indiana families and businesses find better auto, home, life, and business coverage from top carriers. Free quote.',
+  },
+};
+
 // ── 1. Clean and create output dir ──────────────────────────────────────────
 if (fs.existsSync(PUBLIC)) fs.rmSync(PUBLIC, { recursive: true });
 fs.mkdirSync(PUBLIC, { recursive: true });
@@ -116,10 +156,13 @@ for (const niche of niches) {
     }
 
     // Build placeholder map
+    const seo = SEO[slug] || {};
     const placeholders = {
       ...defaults,
       ...flattenConfig(merged),
-      page_title: name,
+      page_title: seo.title || name,
+      meta_description: seo.description || defaults.meta_description || '',
+      canonical_url: SITE_URL + cleanPathFor(slug),
       variant_id: variantId,
       niche_slug: slug,
       image_base: '/images',
@@ -213,5 +256,36 @@ if (fs.existsSync(adminSrc)) {
     fs.copyFileSync(path.join(adminSrc, file), path.join(adminDest, file));
   }
 }
+
+// ── 7. Generate sitemap.xml and robots.txt ──────────────────────────────────
+// Only the clean, indexable niche URLs go in the sitemap — not per-variant files
+// and not the noindex /intake and /dashboard pages.
+const sitemapPaths = [...new Set(niches.map(n => cleanPathFor(n.slug)))];
+const today = new Date().toISOString().slice(0, 10);
+const sitemapUrls = sitemapPaths.map(p => `  <url>
+    <loc>${SITE_URL}${p}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>${p === '/' ? '1.0' : '0.7'}</priority>
+  </url>`).join('\n');
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${sitemapUrls}
+</urlset>
+`;
+fs.writeFileSync(path.join(PUBLIC, 'sitemap.xml'), sitemap);
+
+// /intake keeps its own noindex meta tag so Google can crawl and honor it;
+// /dashboard, /_admin and /api are blocked outright.
+const robots = `User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /_admin
+Disallow: /api/
+
+Sitemap: ${SITE_URL}/sitemap.xml
+`;
+fs.writeFileSync(path.join(PUBLIC, 'robots.txt'), robots);
+console.log(`Generated sitemap.xml (${sitemapPaths.length} URLs) and robots.txt`);
 
 console.log(`\nBuild complete: ${pageCount} pages generated.`);

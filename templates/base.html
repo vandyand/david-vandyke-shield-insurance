@@ -4,6 +4,52 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{page_title}}</title>
+  <meta name="description" content="{{meta_description}}">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="{{canonical_url}}">
+
+  <!-- Open Graph (Facebook, LinkedIn, iMessage link previews) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="David VanDyke Insurance">
+  <meta property="og:title" content="{{page_title}}">
+  <meta property="og:description" content="{{meta_description}}">
+  <meta property="og:url" content="{{canonical_url}}">
+  <meta property="og:image" content="https://davidvandykeinsurance.com/images/david-headshot.png">
+  <meta property="og:image:alt" content="David VanDyke, independent insurance agent serving Michigan">
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{page_title}}">
+  <meta name="twitter:description" content="{{meta_description}}">
+  <meta name="twitter:image" content="https://davidvandykeinsurance.com/images/david-headshot.png">
+
+  <!-- Structured data: local insurance agency (service-area business) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "InsuranceAgency",
+    "@id": "https://davidvandykeinsurance.com/#agency",
+    "name": "David VanDyke Insurance",
+    "alternateName": "David VanDyke — Shield Insurance Agency",
+    "description": "Independent insurance agent serving Michigan families and businesses with auto, home, life, and business coverage from a broad marketplace of top carriers.",
+    "url": "{{canonical_url}}",
+    "image": "https://davidvandykeinsurance.com/images/david-headshot.png",
+    "logo": "https://davidvandykeinsurance.com/images/david-headshot.png",
+    "telephone": "+1-616-616-4884",
+    "email": "davidvd@shieldagency.com",
+    "areaServed": { "@type": "State", "name": "Michigan" },
+    "address": { "@type": "PostalAddress", "addressRegion": "MI", "addressCountry": "US" },
+    "founder": { "@type": "Person", "name": "David VanDyke" },
+    "parentOrganization": { "@type": "Organization", "name": "Shield Insurance Agency" },
+    "knowsAbout": ["Auto Insurance","Homeowners Insurance","Life Insurance","Business Insurance","Health & Dental Insurance","Medicare","Flood Insurance","Disability Insurance"],
+    "makesOffer": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Auto Insurance" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Homeowners Insurance" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Life Insurance" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Business Insurance" } }
+    ]
+  }
+  </script>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z' fill='%23ffffff' stroke='%232c5282' stroke-width='2'/%3E%3Cline x1='12' y1='2' x2='12' y2='22' stroke='%232c5282' stroke-width='2'/%3E%3Cline x1='4' y1='10' x2='20' y2='10' stroke='%232c5282' stroke-width='2'/%3E%3C/svg%3E">
   <!-- Microsoft Clarity -->
   <script type="text/javascript">
